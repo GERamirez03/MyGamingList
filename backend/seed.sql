@@ -11,13 +11,13 @@ CREATE TABLE users
 (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
-    -- password_hash TEXT NOT NULL,
+    password TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL
 );
 
-INSERT INTO users
-    (username, email)
-VALUES
-    ('testUser', 'testUser@test.com'),
-    ('testDev', 'testDev@test.com'),
-    ('testAdmin', 'testAdmin@test.com');
+-- INSERT INTO users
+--     (username, email)
+-- VALUES
+--     ('testUser', 'testUser@test.com'),
+--     ('testDev', 'testDev@test.com'),
+--     ('testAdmin', 'testAdmin@test.com');
