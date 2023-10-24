@@ -10,8 +10,9 @@ const jwt = require("jsonwebtoken");
 
 const { BCRYPT_WORK_FACTOR, SECRET_KEY, JWT_OPTIONS } = require("../config");
 const { ExpressError } = require("../expressError");
+const { ensureLoggedIn } = require("../middleware/auth");
 
-/** Register user.
+/** POST: Register user.
  *      {username, password, email} => {id, username, email}
  */
 
@@ -31,7 +32,7 @@ router.post("/register", async function (req, res, next) {
     }
 });
 
-/** Login user. Returns JWT on success. */
+/** POST: Login user. Returns JWT on success. */
 
 router.post("/login", async function (req, res, next) {
     try {
@@ -50,6 +51,18 @@ router.post("/login", async function (req, res, next) {
         throw new ExpressError("Invalid username/password", 400);
     } catch (err) {
         return next(err);
+    }
+});
+
+/** GET: Secret route for users with valid token */
+
+router.get("/secret", ensureLoggedIn, async function (req, res, next) {
+    try {
+        // const token = req.body._token;
+        // jwt.verify(token, SECRET_KEY);
+        return res.json({ message: "Made it!" });
+    } catch (err) {
+        return next({ status: 401, message: "Unauthorized" });
     }
 });
 
