@@ -5,6 +5,8 @@ require("colors");
 
 const SECRET_KEY = process.env.SECRET_KEY || "mgl-secret-dev";
 
+const JWT_OPTIONS = { expiresIn: 60 * 60 };
+
 const PORT = +process.env.PORT || 3001;
 
 // Use dev database, testing database, or via env var, production database
@@ -28,5 +30,6 @@ module.exports = {
   SECRET_KEY,
   PORT,
   BCRYPT_WORK_FACTOR,
+  JWT_OPTIONS,
   getDatabaseUri,
 };

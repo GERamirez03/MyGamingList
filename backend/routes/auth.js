@@ -6,11 +6,13 @@ const db = require("../db");
 
 const bcrypt = require("bcrypt");
 
-const { BCRYPT_WORK_FACTOR } = require("../config");
+const jwt = require("jsonwebtoken");
+
+const { BCRYPT_WORK_FACTOR, SECRET_KEY, JWT_OPTIONS } = require("../config");
 const { ExpressError } = require("../expressError");
 
 /** Register user.
- *      {username, password, email} => {username}
+ *      {username, password, email} => {id, username, email}
  */
 
 router.post("/register", async function (req, res, next) {
@@ -29,9 +31,7 @@ router.post("/register", async function (req, res, next) {
     }
 });
 
-/** Login user.
- *      {username, password} => {message} on success
- */
+/** Login user. Returns JWT on success. */
 
 router.post("/login", async function (req, res, next) {
     try {
@@ -43,7 +43,8 @@ router.post("/login", async function (req, res, next) {
 
         if (user) {
             if (await bcrypt.compare(password, user.password) === true) {
-                return res.json({ message: "Logged in!" });
+                let token = jwt.sign({ username }, SECRET_KEY, JWT_OPTIONS);
+                return res.json({ token });
             }
         }
         throw new ExpressError("Invalid username/password", 400);
