@@ -3,7 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 
 const { BCRYPT_WORK_FACTOR, SECRET_KEY, JWT_OPTIONS } = require("../config");
-const { ExpressError } = require("../expressError");
+const { UnauthorizedError } = require("../expressError");
 
 /** Authenticate JWT and add authenticated user to request if applicable. */
 
@@ -22,7 +22,7 @@ function authenticateJWT(req, res, next) {
 
 function ensureLoggedIn(req, res, next) {
     if (!req.user) {
-        const err = new ExpressError("Unauthorized", 401);
+        const err = new UnauthorizedError();
         return next(err);
     } else {
         return next();
@@ -33,7 +33,7 @@ function ensureLoggedIn(req, res, next) {
 
 function ensureAdmin(req, res, next) {
     if (!req.user || !req.user.is_admin) {
-        const err = new ExpressError("Unauthorized", 401);
+        const err = new UnauthorizedError();
         return next(err);
     } else {
         return next();
@@ -44,7 +44,7 @@ function ensureAdmin(req, res, next) {
 
 function ensureAdminOrTargetUser(req, res, next) {
     if (!req.user.is_admin && (req.params.username !== req.user.username)) {
-        const err = new ExpressError("Unauthorized", 401);
+        const err = new UnauthorizedError();
         return next(err);
     } else {
         return next();
