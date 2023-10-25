@@ -19,12 +19,13 @@ const { ensureLoggedIn } = require("../middleware/auth");
 router.post("/register", async function (req, res, next) {
     try {
         const { username, password, email } = req.body;
+        const is_admin = (req.body.is_admin) ? true : false;
         const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
         const result = await db.query(`
-            INSERT INTO users (username, password, email)
-                VALUES ($1, $2, $3)
+            INSERT INTO users (username, password, email, is_admin)
+                VALUES ($1, $2, $3, $4)
                 RETURNING id, username, email`,
-            [username, hashedPassword, email]);
+            [username, hashedPassword, email, is_admin]);
 
         return res.json(result.rows[0]);
     } catch (err) {
