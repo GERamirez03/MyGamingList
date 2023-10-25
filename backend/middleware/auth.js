@@ -40,4 +40,20 @@ function ensureAdmin(req, res, next) {
     }
 }
 
-module.exports = { authenticateJWT, ensureLoggedIn, ensureAdmin };
+/** Require admin or target user else raise 401 Error. */
+
+function ensureAdminOrTargetUser(req, res, next) {
+    if (!req.user.is_admin && (req.params.username !== req.user.username)) {
+        const err = new ExpressError("Unauthorized", 401);
+        return next(err);
+    } else {
+        return next();
+    }
+}
+
+module.exports = { 
+    authenticateJWT, 
+    ensureLoggedIn, 
+    ensureAdmin, 
+    ensureAdminOrTargetUser 
+};
