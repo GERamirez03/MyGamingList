@@ -5,6 +5,7 @@ const router = new express.Router();
 const db = require("../db");
 
 const { ensureLoggedIn, ensureAdmin, ensureAdminOrTargetUser } = require("../middleware/auth");
+const User = require("../models/user");
 
 /** GET all users: [user, user, user] */
 
@@ -38,6 +39,20 @@ router.get("/:username",
                 [req.params.username]
             );
             return res.json(result.rows[0]);
+        } catch (err) {
+            return next(err);
+        }
+});
+
+/** PATCH specific fields for given user */
+
+router.patch("/:username",
+    ensureLoggedIn,
+    ensureAdminOrTargetUser,
+    async function(req, res, next) {
+        try {
+            const user = await User.update(req.params.username, req.body);
+            return res.json({ user });
         } catch (err) {
             return next(err);
         }
