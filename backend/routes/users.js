@@ -29,4 +29,15 @@ router.get("/:username", ensureAdminOrTargetUser, async function(req, res, next)
     }
 });
 
+/** DELETE specified user account */
+
+router.delete("/:username", ensureAdminOrTargetUser, async function(req, res, next) {
+    try {
+        const result = await db.query(`DELETE FROM users WHERE username = $1`, [req.params.username]);
+        return res.json({ message: "Deleted" });
+    } catch (err) {
+        return next(err);
+    }
+});
+
 module.exports = router;
