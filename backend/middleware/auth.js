@@ -32,7 +32,7 @@ function ensureLoggedIn(req, res, next) {
 /** Require admin user or raise 401 Error. */
 
 function ensureAdmin(req, res, next) {
-    if (!req.user || !req.user.is_admin) {
+    if (!req.user.is_admin) {
         const err = new UnauthorizedError();
         return next(err);
     } else {
