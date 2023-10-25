@@ -29,4 +29,15 @@ function ensureLoggedIn(req, res, next) {
     }
 }
 
-module.exports = { authenticateJWT, ensureLoggedIn };
+/** Require admin user or raise 401 Error. */
+
+function ensureAdmin(req, res, next) {
+    if (!req.user || !req.user.is_admin) {
+        const err = new ExpressError("Unauthorized", 401);
+        return next(err);
+    } else {
+        return next();
+    }
+}
+
+module.exports = { authenticateJWT, ensureLoggedIn, ensureAdmin };

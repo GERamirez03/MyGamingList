@@ -39,13 +39,14 @@ router.post("/login", async function (req, res, next) {
     try {
         const { username, password } = req.body;
         const result = await db.query(`
-            SELECT password FROM users WHERE username = $1`,
+            SELECT password, is_admin FROM users WHERE username = $1`,
             [username]);
         const user = result.rows[0];
 
         if (user) {
             if (await bcrypt.compare(password, user.password) === true) {
-                let token = jwt.sign({ username }, SECRET_KEY, JWT_OPTIONS);
+                let is_admin = user.is_admin;
+                let token = jwt.sign({ username, is_admin }, SECRET_KEY, JWT_OPTIONS);
                 return res.json({ token });
             }
         }
