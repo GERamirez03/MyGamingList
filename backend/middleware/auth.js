@@ -13,10 +13,8 @@ function authenticateJWT(req, res, next) {
         if (authHeader) {
             const token = authHeader.replace(/^[Bb]earer /, "").trim();
             res.locals.user = jwt.verify(token, SECRET_KEY);
+            // console.log(res.locals.user);
         }
-        // const token = req.body._token;
-        // const payload = jwt.verify(token, SECRET_KEY);
-        // req.user = payload;
         return next();
     } catch (err) {
         return next();
@@ -26,7 +24,7 @@ function authenticateJWT(req, res, next) {
 /** Require user or raise 401 Error. */
 
 function ensureLoggedIn(req, res, next) {
-    if (!res.locals.user) { // !req.user
+    if (!res.locals.user) {
         const err = new UnauthorizedError();
         return next(err);
     } else {
@@ -37,7 +35,7 @@ function ensureLoggedIn(req, res, next) {
 /** Require admin user or raise 401 Error. */
 
 function ensureAdmin(req, res, next) {
-    if (!res.locals.user.is_admin) { // !req.user.is_admin
+    if (!res.locals.user.is_admin) {
         const err = new UnauthorizedError();
         return next(err);
     } else {
@@ -48,7 +46,7 @@ function ensureAdmin(req, res, next) {
 /** Require admin or target user else raise 401 Error. */
 
 function ensureAdminOrTargetUser(req, res, next) {
-    if (!res.locals.user.is_admin && (req.params.username !== res.locals.user.username)) { // !req.user.is_admin && (req.params.username !== req.user.username)
+    if (!res.locals.user.is_admin && (req.params.username !== res.locals.user.username)) {
         const err = new UnauthorizedError();
         return next(err);
     } else {
