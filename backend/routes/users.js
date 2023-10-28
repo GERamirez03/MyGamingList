@@ -9,7 +9,7 @@ const User = require("../models/user");
 
 /** GET all users: [user, user, user] */
 
-router.get("/all", 
+router.get("/", 
     ensureLoggedIn, 
     ensureAdmin, 
     async function(req, res, next) {
