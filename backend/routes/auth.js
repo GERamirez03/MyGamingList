@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 const { BCRYPT_WORK_FACTOR, SECRET_KEY, JWT_OPTIONS } = require("../config");
 const { ExpressError } = require("../expressError");
 const { ensureLoggedIn } = require("../middleware/auth");
+const User = require("../models/user");
 
 /** POST: Register user.
  *      {username, password, email} => {id, username, email}
@@ -18,16 +19,9 @@ const { ensureLoggedIn } = require("../middleware/auth");
 
 router.post("/register", async function (req, res, next) {
     try {
-        const { username, password, email } = req.body;
-        const is_admin = (req.body.is_admin) ? true : false;
-        const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
-        const result = await db.query(`
-            INSERT INTO users (username, password, email, is_admin)
-                VALUES ($1, $2, $3, $4)
-                RETURNING id, username, email`,
-            [username, hashedPassword, email, is_admin]);
-
-        return res.json(result.rows[0]);
+        const newUser = User.register({ ...req.body, is_admin: false });
+        const token = createToken(newUser);
+        return res.status(201).json({ token });
     } catch (err) {
         return next(err);
     }
@@ -38,19 +32,12 @@ router.post("/register", async function (req, res, next) {
 router.post("/login", async function (req, res, next) {
     try {
         const { username, password } = req.body;
-        const result = await db.query(`
-            SELECT password, is_admin FROM users WHERE username = $1`,
-            [username]);
-        const user = result.rows[0];
+        const user = await User.authenticate(username, password);
+        const token = createToken(user);
 
-        if (user) {
-            if (await bcrypt.compare(password, user.password) === true) {
-                let is_admin = user.is_admin;
-                let token = jwt.sign({ username, is_admin }, SECRET_KEY, JWT_OPTIONS);
-                return res.json({ token });
-            }
-        }
-        throw new ExpressError("Invalid username/password", 400);
+        // let token = jwt.sign({ username, is_admin }, SECRET_KEY, JWT_OPTIONS);
+
+        return res.json({ token });
     } catch (err) {
         return next(err);
     }
