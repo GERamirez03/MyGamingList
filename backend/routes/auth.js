@@ -1,16 +1,8 @@
 const express = require("express");
-
 const router = new express.Router();
 
-const db = require("../db");
-
-const bcrypt = require("bcrypt");
-
-const jwt = require("jsonwebtoken");
-
-const { BCRYPT_WORK_FACTOR, SECRET_KEY, JWT_OPTIONS } = require("../config");
-const { ExpressError } = require("../expressError");
 const { ensureLoggedIn } = require("../middleware/auth");
+const { createToken } = require("../helpers/tokens");
 const User = require("../models/user");
 
 /** POST: Register user.
@@ -34,9 +26,6 @@ router.post("/login", async function (req, res, next) {
         const { username, password } = req.body;
         const user = await User.authenticate(username, password);
         const token = createToken(user);
-
-        // let token = jwt.sign({ username, is_admin }, SECRET_KEY, JWT_OPTIONS);
-
         return res.json({ token });
     } catch (err) {
         return next(err);
@@ -47,8 +36,6 @@ router.post("/login", async function (req, res, next) {
 
 router.get("/secret", ensureLoggedIn, async function (req, res, next) {
     try {
-        // const token = req.body._token;
-        // jwt.verify(token, SECRET_KEY);
         return res.json({ message: "Made it!" });
     } catch (err) {
         return next({ status: 401, message: "Unauthorized" });
