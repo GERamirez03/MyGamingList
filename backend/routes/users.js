@@ -14,11 +14,8 @@ router.get("/",
     ensureAdmin, 
     async function(req, res, next) {
         try {
-            const results = await db.query(`
-                SELECT id, username, email 
-                FROM users
-            `);
-            return res.json(results.rows);
+            const users = await User.getAll();
+            return res.json({ users });
         }
         catch (err) {
             return next(err);
@@ -32,13 +29,8 @@ router.get("/:username",
     ensureAdminOrTargetUser, 
     async function(req, res, next) {
         try {
-            const result = await db.query(`
-                SELECT id, username, email, is_admin 
-                FROM users 
-                WHERE username = $1`, 
-                [req.params.username]
-            );
-            return res.json(result.rows[0]);
+            const user = await User.get(req.params.username);
+            return res.json({ user });
         } catch (err) {
             return next(err);
         }
@@ -65,12 +57,8 @@ router.delete("/:username",
     ensureAdminOrTargetUser, 
     async function(req, res, next) {
         try {
-            const result = await db.query(`
-                DELETE FROM users 
-                WHERE username = $1`, 
-                [req.params.username]
-            );
-            return res.json({ message: "Deleted" });
+            await User.remove(req.params.username);
+            return res.json({ deleted: req.params.username });
         } catch (err) {
             return next(err);
         }
