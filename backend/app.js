@@ -2,6 +2,9 @@
 
 const express = require('express');
 
+// import external middleware 'morgan' for logging
+const morgan = require("morgan");
+
 const { NotFoundError } = require("./expressError");
 
 // const gameRoutes = require("./routes/games");
@@ -12,7 +15,13 @@ const { authenticateJWT } = require("./middleware/auth");
 
 const app = express();
 
+// parse JSON requests
 app.use(express.json());
+
+// use morgan logger
+app.use(morgan('dev'));
+
+// attempt to authenticate JSON Web Token on every request received
 app.use(authenticateJWT);
 
 // app.use("/games", gameRoutes);
