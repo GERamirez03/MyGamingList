@@ -1,5 +1,5 @@
 import React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+import { Box, CssBaseline } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import SignupForm from './SignupForm';
 
@@ -8,7 +8,16 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <CssBaseline />
-        <SignupForm />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <SignupForm />
+        </Box>
       </BrowserRouter>
     </div>
   );

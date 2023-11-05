@@ -1,9 +1,11 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Box, Button, Stack, TextField } from "@mui/material";
 
 function SignupForm() {
 
+    // potentially share validation schema across forms?
     const formik = useFormik({
         initialValues: {
             username: "",
@@ -28,48 +30,52 @@ function SignupForm() {
     });
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="username">Username</label>
-            <input
-                id="username"
-                name="username"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.username}
-            />
-            {formik.touched.username && formik.errors.username 
-            ? <div>{formik.errors.username}</div> 
-            : null}
+        <Box component="form" onSubmit={formik.handleSubmit}>
+            <Stack
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                spacing={2}
+            >
 
-            <label htmlFor="password">Password</label>
-            <input
-                id="password"
-                name="password"
-                type="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-            />
-            {formik.touched.password && formik.errors.password 
-            ? <div>{formik.errors.password}</div> 
-            : null}
-            
-            <label htmlFor="email">Email</label>
-            <input
-                id="email"
-                name="email"
-                type="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email 
-            ? <div>{formik.errors.email}</div> 
-            : null}
+                <TextField
+                    id="username"
+                    name="username"
+                    label="Username"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.username && Boolean(formik.errors.username)}
+                    helperText={formik.touched.username && formik.errors.username}
+                />
 
-            <button type="submit">Submit</button>
-        </form>
+                <TextField
+                    id="password"
+                    name="password"
+                    label="Password"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
+                />
+                
+                <TextField
+                    id="email"
+                    name="email"
+                    label="Email"
+                    type="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                />
+
+                <Button type="submit" variant="contained">Submit</Button>
+            </Stack>
+        </Box>
     );
 };
 
