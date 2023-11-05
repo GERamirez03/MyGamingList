@@ -4,18 +4,19 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 /** API Class */
 
-// ESSENTIAL QUESTION: Store user info in api helper class or frontend state? Thinking in frontend state; keep api helper class STATIC!
-// Question: Should I return these in an array or an object?
-
-// IMPLEMENT TOKEN !!!
+// Question: Where should I store current user's information: API Helper and/or frontend state? Will need token to make it to request headers. Decided to have token and username in api helper for the time being... also in Redux state store.
+// Question: Should I return these in an array or an object? Decided to return "user" object with username and token props for the time being...
 
 class MyGamingListApi {
+
+    static token;
+    static username;
 
     static async request(endpoint, data = {}, method = "get") {
         console.debug("API Call:", endpoint, data, method);
 
         const url = `${BASE_URL}/${endpoint}`;
-        const headers = { Authorization: `Bearer ${MyGamingListApi.token}` } // IMPLEMENT TOKEN
+        const headers = { Authorization: `Bearer ${MyGamingListApi.token}` }
         const params = (method === "get")
             ? data
             : {};
@@ -40,7 +41,11 @@ class MyGamingListApi {
 
         if (token) {
             const { username } = newUser;
-            return [username, token];
+
+            MyGamingListApi.token = token;
+            MyGamingListApi.username = username;
+
+            return { username, token };
         }
     }
 
@@ -50,7 +55,11 @@ class MyGamingListApi {
 
         if (token) {
             const { username } = user;
-            return [username, token];
+
+            MyGamingListApi.token = token;
+            MyGamingListApi.username = username;
+
+            return { username, token };
         }
     }
     

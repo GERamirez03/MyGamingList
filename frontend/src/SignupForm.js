@@ -1,9 +1,25 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { sendNewUserToApi } from "./actionCreators";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, TextField } from "@mui/material";
 
 function SignupForm() {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleSubmit = values => {
+        dispatch(sendNewUserToApi(values));
+        navigate('/');
+    }
+
+    // async function handleSubmit(values) {
+    //     dispatch(sendNewUserToApi(values));
+    //     navigate('/');
+    // }
 
     // potentially share validation schema across forms?
     const formik = useFormik({
@@ -25,7 +41,8 @@ function SignupForm() {
                 .required("Required")
         }),
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            handleSubmit(values);
+            // alert(JSON.stringify(values, null, 2));
         },
     });
 
