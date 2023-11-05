@@ -1,13 +1,10 @@
 import React from 'react';
-import { Box, CssBaseline } from '@mui/material';
-import { BrowserRouter } from 'react-router-dom';
-import SignupForm from './SignupForm';
+import Routes from './Routes';
+import { Box } from '@mui/material';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -16,9 +13,8 @@ function App() {
             alignItems: 'center',
           }}
         >
-          <SignupForm />
+          <Routes />
         </Box>
-      </BrowserRouter>
     </div>
   );
 }

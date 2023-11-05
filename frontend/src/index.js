@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
+import { CssBaseline } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -16,6 +16,7 @@ const store = configureStore({
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
+            <CssBaseline />
             <App />
         </BrowserRouter>
     </Provider>, 
