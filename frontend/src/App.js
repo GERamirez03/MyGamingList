@@ -1,5 +1,5 @@
 import React from 'react';
-import Router from './Routes';
+import Router from './Router';
 import { Box } from '@mui/material';
 
 function App() {
