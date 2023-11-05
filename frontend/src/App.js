@@ -1,5 +1,5 @@
 import React from 'react';
-import Routes from './Routes';
+import Router from './Routes';
 import { Box } from '@mui/material';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
             alignItems: 'center',
           }}
         >
-          <Routes />
+          <Router />
         </Box>
     </div>
   );
