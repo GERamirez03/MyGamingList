@@ -2,22 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { CssBaseline } from '@mui/material';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './rootReducer';
 
-const store = configureStore({
-    reducer: rootReducer,
-});
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from 'react-redux';
+import { store, persistedStore } from "./store";
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <CssBaseline />
+        <PersistGate loading={null} persistor={persistedStore}>
             <App />
-        </BrowserRouter>
+        </PersistGate>
     </Provider>, 
     document.getElementById('root')
 );
