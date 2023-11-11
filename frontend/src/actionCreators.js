@@ -26,5 +26,21 @@ function sentNewUser(user) {
     return {
         type: REGISTER,
         user // user = { username, token }
-    }
+    };
+}
+
+// Pair of functions which post a user's credentials to the API
+
+export function sendUserCredentialsToApi(userCredentials) {
+    return async function(dispatch) {
+        let user = await MyGamingListApi.postUserCredentials(userCredentials); // user = { username, token }
+        dispatch(sentUserCredentials(user));
+    };
+}
+
+function sentUserCredentials(user) {
+    return {
+        type: LOGIN,
+        user // user = { username, token }
+    };
 }

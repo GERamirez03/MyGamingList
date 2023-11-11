@@ -12,7 +12,8 @@ function rootReducer(state = INITIAL_STATE, action) {
             return { ...state, username, token };
 
         case LOGIN:
-            return { ...state };
+            let { username: user, token: tkn } = action.user;
+            return { ...state, username: user, token: tkn };
 
         default:
             return state;
