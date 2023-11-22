@@ -80,6 +80,11 @@ class MyGamingListApi {
             return user;
         }
     }
+
+    static clearUserData() {
+        MyGamingListApi.username = null;
+        MyGamingListApi.token = null;
+    }
 }
 
 export default MyGamingListApi;
