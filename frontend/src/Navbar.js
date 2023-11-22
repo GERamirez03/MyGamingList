@@ -2,8 +2,20 @@ import React from "react";
 import { AppBar, Box, Toolbar, Typography, Button, IconButton } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu";
 import { AccountCircle } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { logUserOut } from "./actionCreators";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logout = () => {
+        dispatch(logUserOut());
+        navigate('/');
+    };
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -24,7 +36,8 @@ function Navbar() {
 
                     <Button color="inherit">Login</Button>
                     <Button color="inherit">Signup</Button>
-                    <Button color="inherit">Logout</Button>
+
+                    <Button color="inherit" onClick={logout}>Logout</Button>
 
                     <IconButton
                         size="large"

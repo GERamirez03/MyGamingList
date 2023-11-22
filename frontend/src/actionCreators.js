@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT } from "./actionTypes";
 import MyGamingListApi from "./api";
 
 export function register() {
@@ -10,6 +10,13 @@ export function register() {
 export function login() {
     return {
         type: LOGIN
+    };
+}
+
+export function logUserOut() {
+    MyGamingListApi.clearUserData();
+    return {
+        type: LOGOUT
     };
 }
 

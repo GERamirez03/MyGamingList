@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT } from "./actionTypes";
 
 const INITIAL_STATE = {
     username: null,
@@ -14,6 +14,9 @@ function rootReducer(state = INITIAL_STATE, action) {
         case LOGIN:
             let { username: user, token: tkn } = action.user;
             return { ...state, username: user, token: tkn };
+
+        case LOGOUT: // Q: Should this just return INITIAL_STATE instead?
+            return { ...state, username: null, token: null };
 
         default:
             return state;
