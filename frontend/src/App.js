@@ -3,12 +3,14 @@ import Router from './Router';
 import { Box } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
+import Navbar from "./Navbar";
 
 function App() {
   return (<>
     <CssBaseline />
     <div className="App">
       <BrowserRouter>
+      <Navbar />
         <Box
           sx={{
             marginTop: 8,
