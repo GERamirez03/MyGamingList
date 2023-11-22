@@ -16,6 +16,14 @@ function Navbar() {
         navigate('/');
     };
 
+    const toLogin = () => {
+        navigate('/login');
+    }
+
+    const toSignup = () => {
+        navigate('/signup');
+    }
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -34,9 +42,8 @@ function Navbar() {
                         News
                     </Typography>
 
-                    <Button color="inherit">Login</Button>
-                    <Button color="inherit">Signup</Button>
-
+                    <Button color="inherit" onClick={toLogin}>Login</Button>
+                    <Button color="inherit" onClick={toSignup}>Signup</Button>
                     <Button color="inherit" onClick={logout}>Logout</Button>
 
                     <IconButton
