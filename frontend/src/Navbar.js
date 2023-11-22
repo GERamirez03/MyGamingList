@@ -5,6 +5,7 @@ import { AccountCircle } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { logUserOut } from "./actionCreators";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Navbar() {
 
@@ -24,6 +25,8 @@ function Navbar() {
         navigate('/signup');
     }
 
+    const username = useSelector(store => store.username);
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -42,19 +45,25 @@ function Navbar() {
                         News
                     </Typography>
 
-                    <Button color="inherit" onClick={toLogin}>Login</Button>
-                    <Button color="inherit" onClick={toSignup}>Signup</Button>
-                    <Button color="inherit" onClick={logout}>Logout</Button>
-
-                    <IconButton
+                    {username && 
+                    <>
+                        <Button color="inherit" onClick={logout}>Logout</Button>
+                        <IconButton
                         size="large"
                         edge="end"
                         color="inherit"
                         aria-label="account of current user"
                         sx={{ mr: 2 }}
-                    >
-                        <AccountCircle />
-                    </IconButton>
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                    </>}
+
+                    {!username && 
+                    <>
+                        <Button color="inherit" onClick={toLogin}>Login</Button>
+                        <Button color="inherit" onClick={toSignup}>Signup</Button>
+                    </>}
                 </Toolbar>
             </AppBar>
         </Box>
