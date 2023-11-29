@@ -25,6 +25,10 @@ function Navbar() {
         navigate('/signup');
     }
 
+    const toAccount = () => {
+        navigate('/account');
+    }
+
     const username = useSelector(store => store.username);
 
     return (
@@ -54,6 +58,7 @@ function Navbar() {
                         color="inherit"
                         aria-label="account of current user"
                         sx={{ mr: 2 }}
+                        onClick={toAccount}
                         >
                             <AccountCircle />
                         </IconButton>
