@@ -63,7 +63,7 @@ class User {
     /** Get all users. */
 
     static async getAll() {
-        const result = db.query(`
+        const result = await db.query(`
             SELECT username, email, is_admin
             FROM users
             ORDER BY username`

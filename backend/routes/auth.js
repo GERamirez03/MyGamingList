@@ -11,7 +11,7 @@ const User = require("../models/user");
 
 router.post("/register", async function (req, res, next) {
     try {
-        const newUser = User.register({ ...req.body, is_admin: false });
+        const newUser = await User.register({ ...req.body, is_admin: false });
         const token = createToken(newUser);
         return res.status(201).json({ token });
     } catch (err) {
