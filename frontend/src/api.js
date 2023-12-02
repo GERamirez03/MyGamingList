@@ -2,23 +2,30 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
-/** API Class */
-
-// Question: Where should I store current user's information: API Helper and/or frontend state? Will need token to make it to request headers. Decided to have token and username in api helper for the time being... also in Redux state store.
-// Question: Should I return these in an array or an object? Decided to return "user" object with username and token props for the time being...
+/** API Helper Class */
 
 class MyGamingListApi {
 
-    static token;
-    static username;
+    constructor(token = null, username = null) {
+        this.token = token;
+        this.username = username;
+    }
 
-    static async request(endpoint, data = {}, method = "get") {
+    /** Api Helper Class Data Flow:
+     *  1. Create a new instance of api helper when user attempts to log in or sign up
+     *  ==> if successful, add the resulting token into the class (this.token = token)
+     *  ==> otherwise, let user know of error and keep token as null
+     *  2. From that point onwards, have the request method reference this.token as a header
+     */
+
+    async request(endpoint, data = {}, method = "get") {
         console.debug("API Call:", endpoint, data, method);
-        console.debug("API token:", MyGamingListApi.token);
-        console.debug("API username:", MyGamingListApi.username)
+        console.debug("API token:", this.token);
+        console.debug("API username:", this.username)
 
         const url = `${BASE_URL}/${endpoint}`;
-        const headers = { Authorization: `Bearer ${MyGamingListApi.token}` }
+        const headers = { Authorization: `Bearer ${this.token}` }
+        console.log(headers);
         const params = (method === "get")
             ? data
             : {};
@@ -32,45 +39,45 @@ class MyGamingListApi {
         }
     }
 
-    static async getUsers() {
+    async getUsers() {
         let res = await this.request(`users/`);
         return res.users;
     }
 
-    static async postNewUser(newUser) {
+    async postNewUser(newUser) {
         let res = await this.request(`auth/register`, newUser, "post");
         let token = res.token;
 
         if (token) {
             const { username } = newUser;
 
-            MyGamingListApi.token = token;
-            MyGamingListApi.username = username;
+            this.token = token;
+            this.username = username;
 
             return { username, token };
         }
     }
 
-    static async postUserCredentials(user) {
+    async postUserCredentials(user) {
         let res = await this.request(`auth/login`, user, "post");
         let token = res.token;
 
         if (token) {
             const { username } = user;
 
-            MyGamingListApi.token = token;
-            MyGamingListApi.username = username;
+            this.token = token;
+            this.username = username;
 
             return { username, token };
         }
     }
     
-    static async getUserData(username) {
+    async getUserData(username) {
         let res = await this.request(`users/${username}`);
         return res.user;
     }
 
-    static async patchUserData(userData) {
+    async patchUserData(userData) {
         let { username } = userData;
         delete userData.username;
 
@@ -83,9 +90,9 @@ class MyGamingListApi {
         }
     }
 
-    static clearUserData() {
-        MyGamingListApi.username = null;
-        MyGamingListApi.token = null;
+    clearUserData() {
+        this.username = null;
+        this.token = null;
     }
 }
 

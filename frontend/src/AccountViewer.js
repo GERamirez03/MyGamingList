@@ -6,12 +6,15 @@ import MyGamingListApi from "./api";
 function AccountViewer() {
 
     const username = useSelector(store => store.username);
+    const token = useSelector(store => store.token);
+
     const [user, setUser] = useState(null);
 
     useEffect(function fetchUserWhenMounted() {
         async function fetchUser() {
-            let userData = await MyGamingListApi.getUserData(username);
-            console.log(userData);
+            let apiHelper = new MyGamingListApi(token, username);
+            let userData = await apiHelper.getUserData(username);
+            
             setUser(userData);
         }
         fetchUser();

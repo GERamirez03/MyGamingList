@@ -1,20 +1,9 @@
 import { REGISTER, LOGIN, LOGOUT } from "./actionTypes";
 import MyGamingListApi from "./api";
 
-export function register() {
-    return {
-        type: REGISTER
-    };
-}
-
-export function login() {
-    return {
-        type: LOGIN
-    };
-}
+// Action Creator for LOGOUT
 
 export function logUserOut() {
-    MyGamingListApi.clearUserData();
     return {
         type: LOGOUT
     };
@@ -24,15 +13,19 @@ export function logUserOut() {
 
 export function sendNewUserToApi(newUser) {
     return async function(dispatch) {
-        let user = await MyGamingListApi.postNewUser(newUser); // user = { username, token }
-        dispatch(sentNewUser(user));
+        let apiHelper = new MyGamingListApi();
+
+        let { username, token } = await apiHelper.postNewUser(newUser); // postNewUser returns user = { username, token }
+
+        dispatch(sentNewUser({ username, token }));
     };
 }
 
-function sentNewUser(user) {
+function sentNewUser({ username, token }) {
     return {
         type: REGISTER,
-        user // user = { username, token }
+        username,
+        token
     };
 }
 
@@ -40,14 +33,18 @@ function sentNewUser(user) {
 
 export function sendUserCredentialsToApi(userCredentials) {
     return async function(dispatch) {
-        let user = await MyGamingListApi.postUserCredentials(userCredentials); // user = { username, token }
-        dispatch(sentUserCredentials(user));
+        let apiHelper = new MyGamingListApi();
+
+        let { username, token } = await apiHelper.postUserCredentials(userCredentials); // postNewUser returns user = { username, token }
+
+        dispatch(sentUserCredentials({ username, token }));
     };
 }
 
-function sentUserCredentials(user) {
+function sentUserCredentials({ username, token }) {
     return {
         type: LOGIN,
-        user // user = { username, token }
+        username,
+        token
     };
 }
