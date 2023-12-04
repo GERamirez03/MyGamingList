@@ -1,10 +1,12 @@
-const apicalypse = require("apicalypse");
+const apicalypse = require("apicalypse").default;
 const { ACCESS_TOKEN, CLIENT_ID } = require("./secret");
 
-const BASE_URL = "https://api.igdb.com/v4/";
+const BASE_URL = "https://api.igdb.com/v4";
+const gamesEndpoint = "/games";
 
 const requestOptions = {
     // url, <--- !!!!!! this is the ENDPOINT. for MyGamingList, will usually be /games => "games"
+    // url: gamesEndpoint,
     baseURL: BASE_URL,
     // data: 'fields name;', /** BODY MUST HAVE A SEMI-COLON AT END! */ <-- !!! this is the BODY (text) of the req. By default, the apicalypse query is put in the req body.
     method: 'post',
@@ -16,6 +18,20 @@ const requestOptions = {
     responseType: 'json',
     timeout: 1000  
 };
+
+async function getTenGames() {
+    try {
+        console.log('ABOUT TO SEND A REQUEST TO IGDB API!');
+        console.log(apicalypse);
+        const res = await apicalypse(requestOptions).fields('name').limit(10).request(gamesEndpoint);
+        console.log(res.data);
+        console.log('DID YOU GET THAT?!');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports = { getTenGames };
 
 // const resp = await axios.request(requestOptions);
 // const res = await apicalypse(requestOptions).fields('name').limit(50).request(endpoint);
