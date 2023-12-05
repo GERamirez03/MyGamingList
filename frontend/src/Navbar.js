@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AppBar, Avatar, Box, Toolbar, Typography, Button, IconButton, Tooltip, Menu, MenuItem, Divider, ListItemIcon } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu";
 import { AccountCircle, AdminPanelSettings, Settings, Logout } from "@mui/icons-material";
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import { useDispatch } from "react-redux";
 import { logUserOut } from "./actionCreators";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +61,7 @@ function Navbar() {
                         aria-label="menu"
                         sx={{ mr: 2 }}
                     >
-                        <MenuIcon />
+                        <VideogameAssetIcon />
                     </IconButton>
 
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
