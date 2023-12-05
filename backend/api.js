@@ -21,11 +21,8 @@ const requestOptions = {
 
 async function getTenGames() {
     try {
-        console.log('ABOUT TO SEND A REQUEST TO IGDB API!');
-        console.log(apicalypse);
         const res = await apicalypse(requestOptions).fields('name').limit(10).request(gamesEndpoint);
-        console.log(res.data);
-        console.log('DID YOU GET THAT?!');
+        return res.data;
     } catch (err) {
         console.log(err);
     }

@@ -10,10 +10,8 @@ const { getTenGames } = require("../api");
 
 router.get("/", async function(req, res, next) {
     try {
-        console.log('YOU HAVE REACHED THE GAMES ENDPOINT OF MY API');
-        await getTenGames();
-        console.log("ON THE OTHER SIDE OF GET TEN GAMES!")
-        return res.json({ message: "All done!" });
+        const games = await getTenGames();
+        return res.json({ games });
     }
     catch(err) {
         return next(err);
