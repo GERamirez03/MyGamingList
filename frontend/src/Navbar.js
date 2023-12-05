@@ -62,6 +62,7 @@ function Navbar() {
                         color="inherit"
                         aria-label="menu"
                         sx={{ mr: 2 }}
+                        onClick={toHome}
                     >
                         <VideogameAsset />
                     </IconButton>
