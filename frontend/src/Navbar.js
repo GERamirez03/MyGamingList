@@ -23,8 +23,12 @@ function Navbar() {
 
     const logout = () => {
         dispatch(logUserOut());
-        navigate('/');
+        toHome();
     };
+
+    const toHome = () => {
+        navigate('/');
+    }
 
     const toLogin = () => {
         navigate('/login');
