@@ -4,6 +4,8 @@ const { ACCESS_TOKEN, CLIENT_ID } = require("./secret");
 const BASE_URL = "https://api.igdb.com/v4";
 const gamesEndpoint = "/games";
 
+/** TODO: Refactor this code into an API Helper class for IGDB specifically. */
+
 const requestOptions = {
     // url, <--- !!!!!! this is the ENDPOINT. for MyGamingList, will usually be /games => "games"
     // url: gamesEndpoint,
@@ -28,9 +30,13 @@ async function getTenGames() {
     }
 }
 
-module.exports = { getTenGames };
+async function searchGames(searchTerm = "") {
+    try {
+        const res = await apicalypse(requestOptions).fields('name').limit(10).search(searchTerm).request(gamesEndpoint);
+        return res.data;
+    } catch (err) {
+        console.log(err);
+    }
+}
 
-// const resp = await axios.request(requestOptions);
-// const res = await apicalypse(requestOptions).fields('name').limit(50).request(endpoint);
-// return res.status(200).json({ data: res.data });
-// return res.json({ response: resp.data });
+module.exports = { getTenGames, searchGames };
