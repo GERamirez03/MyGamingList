@@ -10,19 +10,18 @@ function GameDetail() {
 
     const { slug } = useParams();
 
-    /** Attempt to find that game, else redirect */
-    // We're going to base the url's by either slugs from igdb itself so it should be fine...
-    // eg '/games/super-mario-galaxy-2'
-
-    /** While loading display loading... */
+    /** Attempt to find that game, else redirect
+     * We're going to base the url's by either slugs from igdb itself so it should be fine...
+     * eg '/games/super-mario-galaxy-2'
+     */
 
     /** Important Properties of Game Object 
      * 
      * id, name, slug, checksum (uuid hash of the object)
      * summary, first_release_date (unix time stamp!)
-     * ** cover, platforms
+     * ** cover, platforms => **need separate api requests!
      * 
-     * ?* age_ratings
+     * ?* age_ratings => ?not sure whether to include
      * ?? aggregated_rating, aggregated_rating_count (Aggregated = comes from external critics, averaged by count)
      * ??? storyline
     */
@@ -67,9 +66,7 @@ function GameDetail() {
                 </Paper>
             </Stack>
         </Box>
-    )
-
-    // get specific game with "where id = 432432" or similar
+    );
 }
 
 export default GameDetail;
