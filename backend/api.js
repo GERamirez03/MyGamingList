@@ -32,7 +32,7 @@ async function getTenGames() {
 
 async function searchGames(searchTerm = "") {
     try {
-        const res = await apicalypse(requestOptions).fields('name').limit(10).search(searchTerm).request(gamesEndpoint);
+        const res = await apicalypse(requestOptions).fields('id,name,slug,checksum').limit(10).search(searchTerm).request(gamesEndpoint);
         return res.data;
     } catch (err) {
         console.log(err);
