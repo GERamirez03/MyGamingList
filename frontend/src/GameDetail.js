@@ -29,7 +29,8 @@ function GameDetail() {
 
     useEffect(function fetchGameDataWhenMounted() {
         async function fetchGameData(slug) {
-            let gameRes = await MyGamingListApi.getGameData(slug);
+            let apiHelper = new MyGamingListApi();
+            let gameRes = await apiHelper.getGameData(slug);
             setGame(gameRes);
             setIsLoading(false);
         }
