@@ -8,7 +8,7 @@ function GameCard({ game }) {
 
     const { id, name, slug, checksum } = game;
 
-    const toGameDetails = slug => {
+    const toGameDetails = () => {
         navigate(`/games/${slug}`);
     }
 
@@ -23,7 +23,7 @@ function GameCard({ game }) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button onClick={toGameDetails(slug)}>Details</Button>
+                <Button onClick={toGameDetails}>Details</Button>
             </CardActions>
         </Card>
     );
