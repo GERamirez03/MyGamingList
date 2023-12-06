@@ -20,12 +20,10 @@ class MyGamingListApi {
 
     async request(endpoint, data = {}, method = "get") {
         console.debug("API Call:", endpoint, data, method);
-        console.debug("API token:", this.token);
-        console.debug("API username:", this.username)
+        console.debug("Auth:", this.username, this.token);
 
         const url = `${BASE_URL}/${endpoint}`;
         const headers = { Authorization: `Bearer ${this.token}` }
-        console.log(headers);
         const params = (method === "get")
             ? data
             : {};
@@ -88,6 +86,11 @@ class MyGamingListApi {
             delete user.is_admin;
             return user;
         }
+    }
+
+    async searchGames(searchFormData) {
+        let res = await this.request(`games/search`, searchFormData);
+        return res.games;
     }
 
     clearUserData() {
