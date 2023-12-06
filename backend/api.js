@@ -39,4 +39,13 @@ async function searchGames(searchTerm = "") {
     }
 }
 
-module.exports = { getTenGames, searchGames };
+async function getGameData(slug) {
+    try {
+        const res = await apicalypse(requestOptions).fields('id,name,slug,checksum,summary,first_release_date').where(`slug = "${ slug }"`).limit(1).request(gamesEndpoint);
+        return res.data[0];
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports = { getTenGames, searchGames, getGameData };

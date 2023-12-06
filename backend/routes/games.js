@@ -4,7 +4,7 @@ const router = new express.Router();
 
 const db = require("../db");
 
-const { getTenGames, searchGames } = require("../api");
+const { getTenGames, searchGames, getGameData } = require("../api");
 
 /** GET ten games: [game, game, ...] */
 
@@ -23,7 +23,18 @@ router.get("/search", async function(req, res, next) {
     try {
         const games = await searchGames(req.query.searchTerm);
         return res.status(200).json({ games });
-    } catch (err) {
+    } catch(err) {
+        return next(err);
+    }
+});
+
+/** GET route for getting a specific game's data by slug */
+
+router.get("/:slug", async function(req, res, next) {
+    try {
+        const game = await getGameData(req.params.slug);
+        return res.status(200).json({ game });
+    } catch(err) {
         return next(err);
     }
 });
