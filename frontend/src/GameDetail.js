@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import MyGamingListApi from "./api";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography, Paper, Stack } from "@mui/material";
 
 function GameDetail() {
 
@@ -49,15 +49,23 @@ function GameDetail() {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <Typography variant="h1" component="div" sx={{ flexGrow: 1 }}>
-                { name }
-            </Typography>
-            <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-                { first_release_date }
-            </Typography>
-            <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
-                { summary }
-            </Typography>
+            <Stack spacing={2}>
+                <Paper>
+                    <Typography variant="h1" component="div" sx={{ flexGrow: 1 }}>
+                        { name }
+                    </Typography>
+                </Paper>
+                <Paper>
+                    <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
+                        { summary }
+                    </Typography>
+                </Paper>
+                <Paper>
+                    <Typography variant="i" component="div" sx={{ flexGrow: 1 }}>
+                        { first_release_date }
+                    </Typography>
+                </Paper>
+            </Stack>
         </Box>
     )
 
