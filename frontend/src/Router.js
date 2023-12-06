@@ -6,6 +6,7 @@ import LoginForm from "./LoginForm";
 import AccountViewer from "./AccountViewer";
 import ProfileViewer from "./ProfileViewer";
 import GameList from "./GameList";
+import GameDetail from "./GameDetail";
 
 function Router() {
     return (
@@ -16,6 +17,7 @@ function Router() {
             <Route exact path="/account" element={<AccountViewer/>} />
             <Route exact path="/games/search" element={<GameList/>} />
             <Route path="/users/:username" element={<ProfileViewer/>} />
+            <Route path="/games/:slug" element={<GameDetail/>} />
         </ Routes>
     );
 }
