@@ -92,6 +92,11 @@ class MyGamingListApi {
         let res = await this.request(`games/search`, searchFormData);
         return res.games;
     }
+    
+    async getGameData(slug) {
+        let res = await this.request(`games/${slug}`);
+        return res.game;
+    }
 
     clearUserData() {
         this.username = null;
