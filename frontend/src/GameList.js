@@ -24,7 +24,7 @@ function GameList() {
     return (
         <>
             <SearchForm search={search} />
-            {gamesArr !== null && gamesArr.map(game => <GameCard game={game} />)}
+            {gamesArr !== null && gamesArr.map(game => <GameCard game={game} key={game.checksum} />)}
         </>
     );
 }
