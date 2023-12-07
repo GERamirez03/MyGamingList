@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import MyGamingListApi from "./api";
+import React, { useState, useEffect, useContext } from "react";
 import SearchForm from "./SearchForm";
 import GameCard from "./GameCard";
+import UserContext from "./userContext";
 
 function GameList() {
+
+    const apiHelper = useContext(UserContext);
 
     const [searchFormData, setSearchFormData] = useState(null);
     const [gamesArr, setGamesArr] = useState(null);
@@ -14,7 +16,6 @@ function GameList() {
 
     useEffect(() => {
         async function getGameData(searchFormData) {
-            let apiHelper = new MyGamingListApi();
             let games = await apiHelper.searchGames(searchFormData);
             setGamesArr(games);
         }

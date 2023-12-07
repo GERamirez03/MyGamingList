@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import MyGamingListApi from "./api";
 import { Box, CircularProgress, Typography, Paper, Stack } from "@mui/material";
+import UserContext from "./userContext";
 
 function GameDetail() {
+
+    const apiHelper = useContext(UserContext);
 
     const [isLoading, setIsLoading] = useState(true);
     const [game, setGame] = useState(null);
@@ -28,7 +30,6 @@ function GameDetail() {
 
     useEffect(function fetchGameDataWhenMounted() {
         async function fetchGameData(slug) {
-            let apiHelper = new MyGamingListApi();
             let gameRes = await apiHelper.getGameData(slug);
             setGame(gameRes);
             setIsLoading(false);
