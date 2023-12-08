@@ -48,4 +48,13 @@ async function getGameData(slug) {
     }
 }
 
-module.exports = { getTenGames, searchGames, getGameData };
+async function getGameDataById(gameId) {
+    try {
+        const res = await apicalypse(requestOptions).fields('id,name,slug,checksum,summary,first_release_date').where(`id = ${ gameId }`).limit(1).request(gamesEndpoint);
+        return res.data[0];
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports = { getTenGames, searchGames, getGameData, getGameDataById };
