@@ -11,12 +11,9 @@ export function logUserOut() {
 
 // Pair of functions which post a new user to the API
 
-export function sendNewUserToApi(newUser) {
+export function sendNewUserToApi(newUser, apiHelper) {
     return async function(dispatch) {
-        let apiHelper = new MyGamingListApi();
-
-        let { username, token } = await apiHelper.postNewUser(newUser); // postNewUser returns user = { username, token }
-
+        let { username, token } = await apiHelper.postNewUser(newUser);
         dispatch(sentNewUser({ username, token }));
     };
 }
@@ -31,12 +28,9 @@ function sentNewUser({ username, token }) {
 
 // Pair of functions which post a user's credentials to the API
 
-export function sendUserCredentialsToApi(userCredentials) {
+export function sendUserCredentialsToApi(userCredentials, apiHelper) {
     return async function(dispatch) {
-        let apiHelper = new MyGamingListApi();
-
-        let { username, token } = await apiHelper.postUserCredentials(userCredentials); // postNewUser returns user = { username, token }
-
+        let { username, token } = await apiHelper.postUserCredentials(userCredentials);
         dispatch(sentUserCredentials({ username, token }));
     };
 }

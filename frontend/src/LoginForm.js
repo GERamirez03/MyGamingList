@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { sendUserCredentialsToApi } from "./actionCreators";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, TextField } from "@mui/material";
+import UserContext from "./userContext";
 
 function LoginForm() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const apiHelper = useContext(UserContext);
 
     const handleSubmit = values => {
-        dispatch(sendUserCredentialsToApi(values));
+        dispatch(sendUserCredentialsToApi(values, apiHelper));
         navigate('/');
     }
 
