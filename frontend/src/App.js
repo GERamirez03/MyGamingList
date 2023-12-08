@@ -10,24 +10,23 @@ import UserContext from './userContext';
 
 function App() {
 
-  /** Idea 
-   * Check Redux store for user information
-   * if there is user/token info there, initialize an apiHelper with that info
-   * otherwise, still make an apiHelper with null (null is default for store AND apiHelper constructor!)
-   * put that apiHelper in context
-   * provide that context to rest of app
-   * access apiHelper via context in whatever components need it
+  /** 
+   * On App render, initialize an instance of MyGamingListApi
+   * helper class with user information in persisted Redux store.
+   * 
+   * Redux initial state and API Helper constructor have username
+   * and token set to null by default.
+   * 
+   * Store the apiHelper instance in React Context UserContext
+   * and provide that context to the rest of the application.
+   * 
+   * Child components use hook useContext to access apiHelper.
   */
 
   const username = useSelector(store => store.username);
   const token = useSelector(store => store.token);
   const apiHelper = new MyGamingListApi(token, username);
-  console.debug(apiHelper);
-
-  /** Other Side
-   * how does this affect my login/signup processes?
-   * does this affect my login/signup processes?
-   */
+  console.debug("API Helper:", apiHelper);
 
   return (
     <>
