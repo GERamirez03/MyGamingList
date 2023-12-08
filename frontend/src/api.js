@@ -98,6 +98,11 @@ class MyGamingListApi {
         return res.game;
     }
 
+    async getGameDataById(gameId) {
+        let res = await this.request(`games/search/${gameId}`);
+        return res.game;
+    }
+
     clearUserData() {
         this.username = null;
         this.token = null;
