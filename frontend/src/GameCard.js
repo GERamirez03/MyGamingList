@@ -9,7 +9,7 @@ function GameCard({ game }) {
     const { id, name, slug, checksum } = game;
 
     const toGameDetails = () => {
-        navigate(`/games/${slug}`);
+        navigate(`/games/${slug}`, { state: { gameId: id } });
     }
 
     return (

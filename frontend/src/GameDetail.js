@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Box, CircularProgress, Typography, Paper, Stack } from "@mui/material";
 import UserContext from "./userContext";
 
 function GameDetail() {
+
+    const location = useLocation();
+    // console.log(location);
+    console.log(location.state);
+    // location.state.gameId gives the gameId value
+    const gameId = location.state.gameId;
 
     const apiHelper = useContext(UserContext);
 
@@ -29,12 +35,13 @@ function GameDetail() {
     */
 
     useEffect(function fetchGameDataWhenMounted() {
-        async function fetchGameData(slug) {
-            let gameRes = await apiHelper.getGameData(slug);
+        async function fetchGameData(gameId) {
+            // let gameRes = await apiHelper.getGameData(slug);
+            let gameRes = await apiHelper.getGameDataById(gameId);
             setGame(gameRes);
             setIsLoading(false);
         }
-        fetchGameData(slug);
+        fetchGameData(gameId);
     }, []);
 
     if (isLoading) {
