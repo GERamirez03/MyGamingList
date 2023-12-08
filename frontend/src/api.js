@@ -89,7 +89,7 @@ class MyGamingListApi {
     }
 
     async searchGames(searchFormData) {
-        let res = await this.request(`games/search`, searchFormData);
+        let res = await this.request(`games/search`, searchFormData, "post");
         return res.games;
     }
     
