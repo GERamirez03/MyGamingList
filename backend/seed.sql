@@ -22,3 +22,19 @@ CREATE TABLE users
 --     ('testUser', 'testUser@test.com'),
 --     ('testDev', 'testDev@test.com'),
 --     ('testAdmin', 'testAdmin@test.com');
+
+CREATE TABLE games 
+(
+    id INT PRIMARY KEY,
+    name TEXT NOT NULL,
+    slug TEXT NOT NULL,
+    summary TEXT NOT NULL,
+    first_release_date TIMESTAMP NOT NULL
+);
+
+CREATE TABLE users_games
+(
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users (id),
+    game_id INT REFERENCES games (id)
+);
