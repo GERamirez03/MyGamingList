@@ -129,6 +129,39 @@ class User {
             throw new NotFoundError(`User not found: ${username}`);
         }
     }
+
+    /** Add a game to the user's list */
+
+    // Should this use users' serial ids? or username?
+    // What difference does it make performance-wise?
+    // Make these db calls in parallel?
+
+    static async addGameToList(username, gameId) {
+        const userCheck = await db.query(`
+            SELECT username, id
+            FROM users
+            WHERE username = $1`,
+            [username]
+        );
+        const user = userCheck.rows[0];
+
+        if (!user) throw new NotFoundError(`User not found: ${username}`);
+
+        const gameCheck = await db.query(`
+            SELECT id
+            FROM games
+            WHERE id = $1`,
+            [gameId]
+        );
+        const game = gameCheck.rows[0];
+
+        if (!game) throw new NotFoundError(`Game not found: ${gameId}`); // Refactor this to be a call to create the game itself and then come back and finish the job... want to get it in our db!
+
+        await db.query(`
+            INSERT INTO users_games (user_id, game_id)
+            VALUES ($1, $2)`,
+            [user.id, gameId])
+    }
 }
 
 module.exports = User;

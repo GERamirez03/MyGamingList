@@ -64,4 +64,19 @@ router.delete("/:username",
         }
 });
 
+/** POST a user adding a game to their list */
+
+router.post("/:username/games/:id", 
+    ensureLoggedIn, 
+    ensureAdminOrTargetUser, 
+    async function (req, res, next) {
+        try {
+            const gameId = +req.params.id;
+            await User.addGameToList(req.params.username, gameId); // Should frontend keep track of user's id for db purposes?
+            return res.json({ added: gameId });
+        } catch (err) {
+            return next(err);
+        }
+});
+
 module.exports = router;
