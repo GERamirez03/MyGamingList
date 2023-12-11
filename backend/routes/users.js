@@ -94,7 +94,7 @@ router.post("/:username/games/:id",
         try {
             const gameId = +req.params.id;
             await User.addGameToList(req.params.username, gameId); // Should frontend keep track of user's id for db purposes?
-            return res.json({ added: gameId });
+            return res.json({ result: { user: req.params.username, added: gameId }});
         } catch (err) {
             return next(err);
         }
