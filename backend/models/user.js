@@ -73,9 +73,9 @@ class User {
         return result.rows;
     }
 
-    /** Get a user's information by username. */
+    /** Get a user's account information by username. */
 
-    static async get(username) {
+    static async getAccount(username) {
         const result = await db.query(`
             SELECT id, username, email, is_admin
             FROM users
