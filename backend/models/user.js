@@ -201,7 +201,7 @@ class User {
 
         const deletion = await db.query(`
             DELETE FROM users_games
-            WHERE user_id = $1, game_id = $2
+            WHERE user_id = $1 AND game_id = $2
             RETURNING user_id, game_id`,
             [user.id, gameId]
         );
