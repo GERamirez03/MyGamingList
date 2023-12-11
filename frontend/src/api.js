@@ -103,6 +103,11 @@ class MyGamingListApi {
         return res.game;
     }
 
+    async addGameToList(gameId) {
+        let res = await this.request(`users/${this.username}/games/${gameId}`, {}, "post");
+        return res.result;
+    }
+
     clearUserData() {
         this.username = null;
         this.token = null;
