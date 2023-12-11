@@ -100,4 +100,19 @@ router.post("/:username/games/:id",
         }
 });
 
+/** DELETE a game from a user's list */
+
+router.delete("/:username/games/:id",
+    ensureLoggedIn,
+    ensureAdminOrTargetUser,
+    async function (req, res, next) {
+        try {
+            const gameId = +req.params.id;
+            await User.removeGameFromList(req.params.username, gameId); // user id ?
+            return res.json({ result: { user: req.params.username, removed: gameId }});
+        } catch (err) {
+            return next(err);
+        }
+});
+
 module.exports = router;
