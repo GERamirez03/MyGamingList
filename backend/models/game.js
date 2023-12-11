@@ -39,6 +39,24 @@ class Game {
         const game = result.rows[0];
         return game;
     }
+
+    /** Get a game's information by id */
+
+    static async get(id) {
+        const result = await db.query(`
+            SELECT id, name, slug, summary, first_release_date
+            FROM games
+            WHERE id = $1`,
+            [id]
+        );
+        const game = result.rows[0];
+
+        if (!game) {
+            throw new NotFoundError(`Game not found: ${id}`);
+        }
+
+        return game;
+    }
 }
 
 module.exports = Game;
