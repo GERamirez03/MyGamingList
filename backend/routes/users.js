@@ -66,6 +66,27 @@ router.delete("/:username",
 
 /** POST a user adding a game to their list */
 
+/** Outline
+ * Backend receives request that user :username
+ * would like to add game :id
+ * to their list.
+ * 
+ * Backend needs to check if user :username
+ * exists in local db.
+ * 
+ * => If so, proceed.
+ * => If not, error out of the bad request.
+ * 
+ * Backend needs to check if we already have
+ * game :id in the local db.
+ * 
+ * => If so, proceed.
+ * => If not, add game to local db.
+ * 
+ * Finally, add the user and game info
+ * to a new row in users_games.
+ */
+
 router.post("/:username/games/:id", 
     ensureLoggedIn, 
     ensureAdminOrTargetUser, 
