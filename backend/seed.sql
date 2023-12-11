@@ -29,7 +29,7 @@ CREATE TABLE games
     name TEXT NOT NULL,
     slug TEXT NOT NULL,
     summary TEXT NOT NULL,
-    first_release_date TIMESTAMP NOT NULL
+    first_release_date BIGINT NOT NULL
 );
 
 CREATE TABLE users_games
