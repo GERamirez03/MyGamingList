@@ -138,6 +138,8 @@ class User {
     // What difference does it make performance-wise?
     // Make these db calls in parallel?
 
+    // i feel like this should use user id...
+
     static async addGameToList(username, gameId) {
         const userCheck = await db.query(`
             SELECT username, id
@@ -168,6 +170,46 @@ class User {
             INSERT INTO users_games (user_id, game_id)
             VALUES ($1, $2)`,
             [user.id, gameId])
+    }
+
+    /** Remove a game from the user's list */
+
+    // I feel like this should just accept user id and not username...
+
+    static async removeGameFromList(username, gameId) {
+        const userCheck = await db.query(`
+            SELECT username, id
+            FROM users
+            WHERE username = $1`,
+            [username]
+        );
+        const user = userCheck.rows[0];
+
+        if (!user) throw new NotFoundError(`User not found: ${username}`);
+
+        const gameCheck = await db.query(`
+            SELECT id
+            FROM games
+            WHERE id = $1`,
+            [gameId]
+        );
+        const game = gameCheck.rows[0];
+
+        if (!game) {
+            throw new NotFoundError(`Game not found: ${gameId}`);
+        }
+
+        const deletion = await db.query(`
+            DELETE FROM users_games
+            WHERE user_id = $1, game_id = $2
+            RETURNING user_id, game_id`,
+            [user.id, gameId]
+        );
+        const result = deletion.rows[0];
+
+        if (!result) {
+            throw new NotFoundError(`Relationship not found: User ${user.id} with Game ${gameId}`);
+        }
     }
 }
 
