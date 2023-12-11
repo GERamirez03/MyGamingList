@@ -115,4 +115,17 @@ router.delete("/:username/games/:id",
         }
 });
 
+/** GET profile of specified user */
+
+router.get("/:username/profile",
+    ensureLoggedIn,
+    async function (req, res, next) {
+        try {
+            const user = await User.getProfile(req.params.username);
+            return res.json({ user });
+        } catch (err) {
+            return next(err);
+        }
+    })
+
 module.exports = router;

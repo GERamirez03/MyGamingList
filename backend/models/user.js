@@ -211,6 +211,32 @@ class User {
             throw new NotFoundError(`Relationship not found: User ${user.id} with Game ${gameId}`);
         }
     }
+
+    /** Get a user's profile information by username */
+
+    static async getProfile(username) {
+        const userCheck = await db.query(`
+            SELECT username, id
+            FROM users
+            WHERE username = $1`,
+            [username]
+        );
+        const user = userCheck.rows[0];
+
+        if (!user) throw new NotFoundError(`User not found: ${username}`);
+
+        // we have a valid username/user.id => get their game list
+
+        const userGamesRes = await db.query(`
+            SELECT game_id
+            FROM users_games
+            WHERE user_id = $1`,
+            [user.id]
+        );
+        const userGames = userGamesRes.rows.map(game => game.game_id);
+
+        return { username, games: userGames };
+    }
 }
 
 module.exports = User;
