@@ -108,6 +108,11 @@ class MyGamingListApi {
         return res.result;
     }
 
+    async removeGameFromList(gameId) {
+        let res = await this.request(`users/${this.username}/games/${gameId}`, {}, "delete");
+        return res.result;
+    }
+
     clearUserData() {
         this.username = null;
         this.token = null;
