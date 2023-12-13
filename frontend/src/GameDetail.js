@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { Box, CircularProgress, Typography, Paper, Stack } from "@mui/material";
+import { Box, CircularProgress, Typography, Paper, Stack, Fab } from "@mui/material";
 import UserContext from "./userContext";
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { sendUserAddingGameToApi, sendUserRemovingGameToApi } from "./actionCreators";
+import { useDispatch, useSelector } from "react-redux";
 
 function GameDetail() {
 
@@ -17,6 +21,11 @@ function GameDetail() {
     const [game, setGame] = useState(null);
 
     const { slug } = useParams();
+
+    const userGameList = useSelector(store => store.games);
+    const isInUserGameList = userGameList.includes(gameId);
+
+    /** Have a piece of state dedicated to whether or not a game is already in user's list? that way we can show add vs remove? */
 
     /** Attempt to find that game, else redirect
      * We're going to base the url's by either slugs from igdb itself so it should be fine...
@@ -54,6 +63,16 @@ function GameDetail() {
 
     const { id, name, checksum, summary, first_release_date } = game;
 
+    const dispatch = useDispatch();
+
+    const addGame = () => {
+        dispatch(sendUserAddingGameToApi(gameId, apiHelper)); // should a user's games be a set in backend?
+    }
+
+    const removeGame = () => {
+        dispatch(sendUserRemovingGameToApi(gameId, apiHelper));
+    }
+
     return (
         <Box sx={{ display: 'flex' }}>
             <Stack spacing={2}>
@@ -72,6 +91,15 @@ function GameDetail() {
                         { first_release_date }
                     </Typography>
                 </Paper>
+
+                {isInUserGameList 
+                ?   <Fab color="secondary" aria-label="remove" onClick={removeGame}>
+                        <DeleteIcon />
+                    </Fab>
+                :   <Fab color="primary" aria-label="add" onClick={addGame}>
+                        <AddIcon />
+                    </Fab>
+                }
             </Stack>
         </Box>
     );
