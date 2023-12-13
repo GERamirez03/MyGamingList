@@ -15,7 +15,7 @@ class User {
     static async authenticate(username, password) {
 
         const result = await db.query(`
-            SELECT username, password, email, is_admin
+            SELECT id, username, password, email, is_admin
             FROM users
             WHERE username = $1`,
             [username]
@@ -25,7 +25,9 @@ class User {
         if (user) {
             const isValid = await bcrypt.compare(password, user.password);
             if (isValid) {
+                const games = await User.getGames(user.id);
                 delete user.password;
+                user.games = games;
                 return user;
             }
         }
@@ -235,7 +237,41 @@ class User {
         );
         const userGames = userGamesRes.rows.map(game => game.game_id);
 
-        return { username, games: userGames };
+        // this is an array of game ids... turn it into an array of game objects with id, name, and slug. array of promises, await all
+
+        const games = await Promise.all(userGames.map(gameId => Game.get(gameId)));
+
+        return { username, games };
+    }
+
+    static async getUserId(username) {
+        const userCheck = await db.query(`
+            SELECT username, id
+            FROM users
+            WHERE username = $1`,
+            [username]
+        );
+        const user = userCheck.rows[0];
+
+        if (!user) throw new NotFoundError(`User not found: ${username}`);
+
+        return user.id;
+    }
+
+    static async getGames(userId) {
+        // we have a valid username/user.id => get their game list
+
+        const userGamesRes = await db.query(`
+            SELECT game_id
+            FROM users_games
+            WHERE user_id = $1`,
+            [userId]
+        );
+        const userGames = userGamesRes.rows.map(game => game.game_id);
+
+        // this is an array of game ids
+
+        return userGames;
     }
 }
 
