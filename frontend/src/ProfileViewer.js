@@ -1,25 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material"
+import { Box, CircularProgress, Typography } from "@mui/material"
 import MyGamingListApi from "./api";
+import UserContext from "./userContext";
+import GameCard from "./GameCard";
 
 function ProfileViewer() {
 
     const { username } = useParams();
-    const [user, setUser] = useState(null);
+    const [profile, setProfile] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const apiHelper = useContext(UserContext);
 
     useEffect(function fetchProfileWhenMounted() {
-        async function fetchProfile() {
-            // TODO: User ACCOUNT (private) vs PROFILE (public) data
-            // let profileData = await MyGamingListApi.getUserProfile(username);
-            let profileData = { username: "testingzzz"};
-            console.log(profileData);
-            setUser(profileData);
+        async function fetchProfile(username) {
+            let profileRes = await apiHelper.getProfile(username);
+            console.debug(profileRes);
+            setProfile(profileRes);
+            setIsLoading(false);
         }
-        fetchProfile();
+        fetchProfile(username);
     }, []);
 
-    if (user === null) return <Typography>Loading...</Typography>
+    if (isLoading) {
+        return (
+            <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -30,6 +40,8 @@ function ProfileViewer() {
             <Typography variant="h3" component="div" sx={{ flexGrow: 1}}>
                 Games
             </Typography>
+
+            {profile.games.map(game => <GameCard game={game} key={game.id} />)}
 
         </Box>
     );
