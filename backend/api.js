@@ -18,7 +18,7 @@ const requestOptions = {
         'Authorization': `Bearer ${ ACCESS_TOKEN }`
     },
     responseType: 'json',
-    timeout: 1000  
+    timeout: 2000  
 };
 
 async function getTenGames() {
