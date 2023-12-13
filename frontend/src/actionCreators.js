@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME } from "./actionTypes";
 import MyGamingListApi from "./api";
 
 // Action Creator for LOGOUT
@@ -41,4 +41,38 @@ function sentUserCredentials({ username, token }) {
         username,
         token
     };
+}
+
+// Pair of functions which post a user adding a game to their list to the API
+
+export function sendUserAddingGameToApi(gameId, apiHelper) {
+    return async function(dispatch) {
+        let result = await apiHelper.addGameToList(gameId);
+        console.debug(result);
+        dispatch(sentUserAddingGame(result.added));
+    }
+}
+
+function sentUserAddingGame(gameId) {
+    return {
+        type: ADD_GAME,
+        gameId
+    };
+}
+
+// Pair of functions which post a user removing a game from their list to the API
+
+export function sendUserRemovingGameToApi(gameId, apiHelper) {
+    return async function(dispatch) {
+        let result = await apiHelper.removeGameFromList(gameId);
+        console.debug(result);
+        dispatch(sentUserRemovingGame(result.removed));
+    }
+}
+
+function sentUserRemovingGame(gameId) {
+    return {
+        type: REMOVE_GAME,
+        gameId
+    }
 }
