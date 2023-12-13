@@ -12,7 +12,7 @@ function rootReducer(state = INITIAL_STATE, action) {
             return { ...state, username: action.username, token: action.token };
 
         case LOGIN:
-            return { ...state, username: action.username, token: action.token };
+            return { ...state, username: action.username, token: action.token, games: action.games };
 
         case LOGOUT:
             return INITIAL_STATE;

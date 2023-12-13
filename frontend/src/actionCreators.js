@@ -30,16 +30,17 @@ function sentNewUser({ username, token }) {
 
 export function sendUserCredentialsToApi(userCredentials, apiHelper) {
     return async function(dispatch) {
-        let { username, token } = await apiHelper.postUserCredentials(userCredentials);
-        dispatch(sentUserCredentials({ username, token }));
+        let { username, token, games } = await apiHelper.postUserCredentials(userCredentials);
+        dispatch(sentUserCredentials({ username, token, games }));
     };
 }
 
-function sentUserCredentials({ username, token }) {
+function sentUserCredentials({ username, token, games }) {
     return {
         type: LOGIN,
         username,
-        token
+        token,
+        games
     };
 }
 

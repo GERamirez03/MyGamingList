@@ -61,6 +61,7 @@ class MyGamingListApi {
     async postUserCredentials(user) {
         let res = await this.request(`auth/login`, user, "post");
         let token = res.token;
+        let games = res.games;
 
         if (token) {
             const { username } = user;
@@ -68,12 +69,17 @@ class MyGamingListApi {
             this.token = token;
             this.username = username;
 
-            return { username, token };
+            return { username, token, games };
         }
     }
     
     async getUserData(username) {
         let res = await this.request(`users/${username}`);
+        return res.user;
+    }
+
+    async getProfile(username) {
+        let res = await this.request(`users/${username}/profile`);
         return res.user;
     }
 
