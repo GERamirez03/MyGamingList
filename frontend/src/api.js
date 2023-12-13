@@ -11,6 +11,8 @@ class MyGamingListApi {
         this.username = username;
     }
 
+    // Have a method for retrieving this user's profile? game data?
+
     /** Api Helper Class Data Flow:
      *  1. Create a new instance of api helper when user attempts to log in or sign up
      *  ==> if successful, add the resulting token into the class (this.token = token)
