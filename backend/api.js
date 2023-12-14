@@ -3,58 +3,49 @@ const { ACCESS_TOKEN, CLIENT_ID } = require("./secret");
 
 const BASE_URL = "https://api.igdb.com/v4";
 const gamesEndpoint = "/games";
-
-/** TODO: Refactor this code into an API Helper class for IGDB specifically. */
+const gameFields = 'id,name,slug,checksum,summary,first_release_date';
 
 const requestOptions = {
-    // url, <--- !!!!!! this is the ENDPOINT. for MyGamingList, will usually be /games => "games"
-    // url: gamesEndpoint,
+    // url: endpoint, usually '/games'
     baseURL: BASE_URL,
-    // data: 'fields name;', /** BODY MUST HAVE A SEMI-COLON AT END! */ <-- !!! this is the BODY (text) of the req. By default, the apicalypse query is put in the req body.
-    method: 'post',
+    // data: queryString, determined by API helper methods
+    method: 'post', // IGDB API uses POST requests for most of its endpoints
     headers: {
         'Accept': 'application/json',
         'Client-ID': CLIENT_ID,
         'Authorization': `Bearer ${ ACCESS_TOKEN }`
-    },
+    }, // my application's information in the IGDB registry
     responseType: 'json',
-    timeout: 2000  
+    timeout: 2000 // give IGDB API two seconds before a request times out
 };
 
-async function getTenGames() {
-    try {
-        const res = await apicalypse(requestOptions).fields('name').limit(10).request(gamesEndpoint);
-        return res.data;
-    } catch (err) {
-        console.log(err);
+class IGDBApi {
+
+    static async request(data) {
+
+        requestOptions.data = data;
+        console.debug("requestOptions:", requestOptions);
+
+        try {
+            return (await apicalypse(requestOptions).request(gamesEndpoint)).data;
+        } catch (err) {
+            console.error("API Error:", err.response);
+            let message = err.response.data.error.message;
+            throw Array.isArray(message) ? message : [message];
+        }
+    }
+
+    static async searchGames(searchTerm = "") {
+        let data = `fields ${ gameFields }; search "${ searchTerm }"; limit 10;`;
+        let games = await this.request(data);
+        return games;
+    }
+
+    static async getGameData(gameId) {
+        let data = `fields ${ gameFields }; where id = ${ gameId }; limit 1;`;
+        let game = (await this.request(data))[0];
+        return game;
     }
 }
 
-async function searchGames(searchTerm = "") {
-    try {
-        const res = await apicalypse(requestOptions).fields('id,name,slug,checksum').limit(10).search(searchTerm).request(gamesEndpoint);
-        return res.data;
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-async function getGameData(slug) {
-    try {
-        const res = await apicalypse(requestOptions).fields('id,name,slug,checksum,summary,first_release_date').where(`slug = "${ slug }"`).limit(1).request(gamesEndpoint);
-        return res.data[0];
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-async function getGameDataById(gameId) {
-    try {
-        const res = await apicalypse(requestOptions).fields('id,name,slug,checksum,summary,first_release_date').where(`id = ${ gameId }`).limit(1).request(gamesEndpoint);
-        return res.data[0];
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-module.exports = { getTenGames, searchGames, getGameData, getGameDataById };
+module.exports = IGDBApi;
