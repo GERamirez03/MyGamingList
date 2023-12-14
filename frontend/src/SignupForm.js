@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { sendNewUserToApi } from "./actionCreators";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import UserContext from "./userContext";
+import { newUser } from "./schemas";
 
 function SignupForm() {
 
@@ -18,25 +18,13 @@ function SignupForm() {
         navigate('/');
     }
 
-    // potentially share validation schema across forms?
     const formik = useFormik({
         initialValues: {
             username: "",
             password: "",
             email: ""
         },
-        validationSchema: Yup.object({
-            username: Yup.string()
-                .max(15, "Must be 15 characters or less")
-                .required("Required"),
-            password: Yup.string() // investigate regex for password validation
-                .max(20, "Must be 20 characters or less")
-                .min(8, "Must be 8 characters or more")
-                .required("Required"),
-            email: Yup.string()
-                .email("Invalid email address")
-                .required("Required")
-        }),
+        validationSchema: newUser,
         onSubmit: values => {
             handleSubmit(values);
         },

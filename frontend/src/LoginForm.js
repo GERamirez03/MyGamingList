@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { sendUserCredentialsToApi } from "./actionCreators";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import UserContext from "./userContext";
+import { returningUser } from "./schemas";
 
 function LoginForm() {
 
@@ -23,15 +23,7 @@ function LoginForm() {
             username: "",
             password: "",
         },
-        validationSchema: Yup.object({
-            username: Yup.string()
-                .max(15, "Must be 15 characters or less")
-                .required("Required"),
-            password: Yup.string()
-                .max(20, "Must be 20 characters or less")
-                .min(8, "Must be 8 characters or more")
-                .required("Required"),
-        }),
+        validationSchema: returningUser,
         onSubmit: values => {
             handleSubmit(values);
         },
