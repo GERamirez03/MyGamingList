@@ -52,16 +52,6 @@ function GameDetail() {
         fetchGameData(gameId);
     }, []);
 
-    if (isLoading) {
-        return (
-            <Box sx={{ display: 'flex' }}>
-                <CircularProgress />
-            </Box>
-        );
-    }
-
-    const { id, name, checksum, summary, first_release_date } = game;
-
     const dispatch = useDispatch();
 
     const addGame = () => {
@@ -71,6 +61,16 @@ function GameDetail() {
     const removeGame = () => {
         dispatch(sendUserRemovingGameToApi(gameId, apiHelper));
     }
+
+    if (isLoading) {
+        return (
+            <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    const { id, name, checksum, summary, first_release_date } = game;
 
     return (
         <Box sx={{ display: 'flex' }}>
