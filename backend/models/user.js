@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const { sqlForPartialUpdate } = require("../helpers/sql");
 const { NotFoundError, UnauthorizedError, BadRequestError } = require("../expressError");
 const { BCRYPT_WORK_FACTOR } = require("../config");
-const { getGameDataById } = require("../api");
+const IGDBApi = require("../api");
 const Game = require("../models/game");
 
 /** Related functions for users. */
@@ -164,7 +164,7 @@ class User {
         // if (!game) throw new NotFoundError(`Game not found: ${gameId}`); // Refactor this to be a call to create the game itself and then come back and finish the job... want to get it in our db!
 
         if (!game) {
-            let gameData = await getGameDataById(gameId); // can probably cut down IGDB API calls by having frontend send important game data to backend...
+            let gameData = await IGDBApi.getGameData(gameId); // can probably cut down IGDB API calls by having frontend send important game data to backend...
             await Game.create(gameData);
         }
 
