@@ -45,8 +45,7 @@ function GameDetail() {
 
     useEffect(function fetchGameDataWhenMounted() {
         async function fetchGameData(gameId) {
-            // let gameRes = await apiHelper.getGameData(slug);
-            let gameRes = await apiHelper.getGameDataById(gameId);
+            let gameRes = await apiHelper.getGameData(gameId);
             setGame(gameRes);
             setIsLoading(false);
         }

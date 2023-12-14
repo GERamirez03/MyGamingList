@@ -100,14 +100,9 @@ class MyGamingListApi {
         let res = await this.request(`games/search`, searchFormData, "post");
         return res.games;
     }
-    
-    async getGameData(slug) {
-        let res = await this.request(`games/${slug}`);
-        return res.game;
-    }
 
-    async getGameDataById(gameId) {
-        let res = await this.request(`games/search/${gameId}`);
+    async getGameData(gameId) {
+        let res = await this.request(`games/${gameId}`);
         return res.game;
     }
 
