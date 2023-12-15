@@ -18,18 +18,18 @@ class Game {
         // But should it be an error in my Node backend?
         // How will that translate to the frontend? WILL it translate to the frontend?
 
-        const duplicateCheck = await db.query(`
-            SELECT id
-            FROM games
-            WHERE id = $1`,
-            [id]
-        );
-        const isDuplicate = duplicateCheck.rows[0];
-        // if (isDuplicate) return; // Duplicate game creation aborted; not an error.
+        // const duplicateCheck = await db.query(`
+        //     SELECT id
+        //     FROM games
+        //     WHERE id = $1`,
+        //     [id]
+        // );
+        // const isDuplicate = duplicateCheck.rows[0];
+        // // if (isDuplicate) return; // Duplicate game creation aborted; not an error.
 
-        if (isDuplicate) {
-            throw new BadRequestError(`Duplicate game: (${id}) ${name}`);
-        }
+        // if (isDuplicate) {
+        //     throw new BadRequestError(`Duplicate game: (${id}) ${name}`);
+        // }
 
         const result = await db.query(`
             INSERT INTO games
@@ -40,9 +40,9 @@ class Game {
         );
         const game = result.rows[0];
 
-        // Create cover in local db
-        let coverData = await IGDBApi.getCoverData(cover);
-        await Cover.create(coverData);
+        // // Create cover in local db
+        // let coverData = await IGDBApi.getCoverData(cover);
+        // await Cover.create(coverData);
 
         return game;
     }
