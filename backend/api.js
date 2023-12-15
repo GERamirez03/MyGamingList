@@ -54,6 +54,12 @@ class IGDBApi {
         let cover = (await this.request(data, coversEndpoint))[0];
         return cover;
     }
+
+    static async getGameCover(gameId) {
+        let data = `fields ${ coverFields }; where game = ${ gameId }; limit 1;`;
+        let cover = (await this.request(data, coversEndpoint))[0];
+        return cover;
+    }
 }
 
 module.exports = IGDBApi;
