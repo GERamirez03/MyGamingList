@@ -38,3 +38,12 @@ CREATE TABLE users_games
     user_id INT REFERENCES users (id),
     game_id INT REFERENCES games (id)
 );
+
+CREATE TABLE covers
+(
+    id INT PRIMARY KEY,
+    game_id INT REFERENCES games (id),
+    url TEXT NOT NULL,
+    height INT NOT NULL,
+    width INT NOT NULL
+);
