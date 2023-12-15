@@ -8,8 +8,6 @@ class Cover {
 
     static async create({ id, game, url, height, width }) {
 
-        // check duplicate ?
-
         const result = await db.query(`
             INSERT INTO covers
             (id, game_id, url, height, width)
