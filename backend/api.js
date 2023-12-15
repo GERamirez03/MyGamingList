@@ -3,7 +3,9 @@ const { ACCESS_TOKEN, CLIENT_ID } = require("./secret");
 
 const BASE_URL = "https://api.igdb.com/v4";
 const gamesEndpoint = "/games";
+const coversEndpoint = "/covers";
 const gameFields = 'id,name,slug,checksum,summary,first_release_date,cover';
+const coverFields = 'id,game,url,height,width';
 
 const requestOptions = {
     // url: endpoint, usually '/games'
@@ -21,13 +23,13 @@ const requestOptions = {
 
 class IGDBApi {
 
-    static async request(data) {
+    static async request(data, endpoint = gamesEndpoint) {
 
         requestOptions.data = data;
         console.debug("requestOptions:", requestOptions);
 
         try {
-            return (await apicalypse(requestOptions).request(gamesEndpoint)).data;
+            return (await apicalypse(requestOptions).request(endpoint)).data;
         } catch (err) {
             console.error("API Error:", err.response);
             let message = err.response.data.error.message;
@@ -45,6 +47,12 @@ class IGDBApi {
         let data = `fields ${ gameFields }; where id = ${ gameId }; limit 1;`;
         let game = (await this.request(data))[0];
         return game;
+    }
+
+    static async getCoverData(coverId) {
+        let data = `fields ${ coverFields }; where id = ${ coverId }; limit 1;`;
+        let cover = (await this.request(data, coversEndpoint))[0];
+        return cover;
     }
 }
 
