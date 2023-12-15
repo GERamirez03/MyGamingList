@@ -137,34 +137,31 @@ class User {
 
     /** Add a game to the user's list */
 
-    // Should this use users' serial ids? or username?
-    // What difference does it make performance-wise?
-    // Make these db calls in parallel?
-
-    // i feel like this should use user id...
-
     static async addGameToList(username, gameId) {
-        const userCheck = await db.query(`
+
+        /** Query db to check for user and game */
+
+        const userRes = db.query(`
             SELECT username, id
             FROM users
             WHERE username = $1`,
             [username]
         );
-        const user = userCheck.rows[0];
-
-        if (!user) throw new NotFoundError(`User not found: ${username}`);
-
-        const gameCheck = await db.query(`
+        const gameRes = db.query(`
             SELECT id
             FROM games
             WHERE id = $1`,
             [gameId]
         );
-        const game = gameCheck.rows[0];
+        let [userCheck, gameCheck] = await Promise.all([userRes, gameRes]);
 
-        /** If game/cover are not in local DB, fetch their data from API and add them */
+        /** If username not found in DB, throw NotFoundError */
 
-        if (!game) {    
+        if (!userCheck.rows[0]) throw new NotFoundError(`User not found: ${username}`);
+        
+        /** If game is not in local DB, fetch game and cover's data from API and add them */
+
+        if (!gameCheck.rows[0]) {    
             let [gameData, coverData] = 
             await Promise.all([
                 IGDBApi.getGameData(gameId),
@@ -176,10 +173,12 @@ class User {
             ]);
         }
 
+        /** Finally, add the game to the user's list */
+
         await db.query(`
             INSERT INTO users_games (user_id, game_id)
             VALUES ($1, $2)`,
-            [user.id, gameId])
+            [userCheck.rows[0].id, gameId])
     }
 
     /** Remove a game from the user's list */
