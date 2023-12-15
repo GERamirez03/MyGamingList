@@ -1,6 +1,8 @@
 const db = require("../db");
 const { sqlForPartialUpdate } = require("../helpers/sql");
 const { NotFoundError, BadRequestError } = require("../expressError");
+const IGDBApi = require("../api");
+const Cover = require("./cover");
 
 /** Related functions for games. */
 
@@ -8,7 +10,7 @@ class Game {
 
     /** Create a game with data provided */
 
-    static async create({ id, name, slug, summary, first_release_date }) {
+    static async create({ id, name, slug, summary, first_release_date, cover }) {
 
         // AT WHAT LAYER is a duplicate game being created an error?
         // If not intercepted, Postgres DB itself would throw an error
@@ -37,6 +39,11 @@ class Game {
             [id, name, slug, summary, first_release_date]
         );
         const game = result.rows[0];
+
+        // Create cover in local db
+        let coverData = await IGDBApi.getCoverData(cover);
+        await Cover.create(coverData);
+
         return game;
     }
 
