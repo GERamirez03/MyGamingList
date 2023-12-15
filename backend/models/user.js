@@ -5,6 +5,7 @@ const { NotFoundError, UnauthorizedError, BadRequestError } = require("../expres
 const { BCRYPT_WORK_FACTOR } = require("../config");
 const IGDBApi = require("../api");
 const Game = require("../models/game");
+const Cover = require("./cover");
 
 /** Related functions for users. */
 
@@ -164,8 +165,13 @@ class User {
         // if (!game) throw new NotFoundError(`Game not found: ${gameId}`); // Refactor this to be a call to create the game itself and then come back and finish the job... want to get it in our db!
 
         if (!game) {
-            let gameData = await IGDBApi.getGameData(gameId); // can probably cut down IGDB API calls by having frontend send important game data to backend...
-            await Game.create(gameData);
+            // in here, we know our user is valid. we also know that we don't have that particular game in our local db, so we dont have the game or its cover yet. we have the gameId to reference.
+            // let gameData = await IGDBApi.getGameData(gameId); // can probably cut down IGDB API calls by having frontend send important game data to backend...
+            // await Game.create(gameData);
+            await Promise.all([
+                    Game.create(await IGDBApi.getGameData(gameId)), 
+                    Cover.create(await IGDBApi.getGameCover(gameId))
+            ]);
         }
 
         await db.query(`
