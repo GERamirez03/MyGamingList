@@ -162,15 +162,17 @@ class User {
         );
         const game = gameCheck.rows[0];
 
-        // if (!game) throw new NotFoundError(`Game not found: ${gameId}`); // Refactor this to be a call to create the game itself and then come back and finish the job... want to get it in our db!
+        /** If game/cover are not in local DB, fetch their data from API and add them */
 
-        if (!game) {
-            // in here, we know our user is valid. we also know that we don't have that particular game in our local db, so we dont have the game or its cover yet. we have the gameId to reference.
-            // let gameData = await IGDBApi.getGameData(gameId); // can probably cut down IGDB API calls by having frontend send important game data to backend...
-            // await Game.create(gameData);
+        if (!game) {    
+            let [gameData, coverData] = 
             await Promise.all([
-                    Game.create(await IGDBApi.getGameData(gameId)), 
-                    Cover.create(await IGDBApi.getGameCover(gameId))
+                IGDBApi.getGameData(gameId),
+                IGDBApi.getGameCover(gameId)
+            ]);
+            await Promise.all([
+                Game.create(gameData),
+                Cover.create(coverData)
             ]);
         }
 
