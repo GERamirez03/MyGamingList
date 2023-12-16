@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, Stack } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 
 function GameCard({ game }) {
@@ -14,23 +14,24 @@ function GameCard({ game }) {
 
     return (
         <Card>
-            <CardMedia
-                component="img"
-                height={cover.height}
-                width={cover.width}
-                image={cover.url}
-                alt={`Cover for ${ name }`} />
-            <CardContent>
-                <Typography>
-                    { id }
-                </Typography>
-                <Typography>
-                    { name }
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button onClick={toGameDetails}>Details</Button>
-            </CardActions>
+            <Stack direction="row" spacing={2}>
+                <CardMedia
+                    component="img"
+                    image={cover.url}
+                    alt={`Cover for ${ name }`}
+                    sx={{
+                        width: 100,
+                        height: 100
+                    }} />
+                <CardContent>
+                    <Typography>
+                        { name }
+                    </Typography>
+                </CardContent>
+                <CardActions>
+                    <Button onClick={toGameDetails}>Details</Button>
+                </CardActions>
+            </Stack>
         </Card>
     );
 }
