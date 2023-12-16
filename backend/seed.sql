@@ -29,7 +29,8 @@ CREATE TABLE games
     name TEXT NOT NULL,
     slug TEXT NOT NULL,
     summary TEXT NOT NULL,
-    first_release_date BIGINT NOT NULL
+    first_release_date BIGINT NOT NULL,
+    cover_url TEXT DEFAULT NULL
 );
 
 CREATE TABLE users_games
@@ -37,13 +38,4 @@ CREATE TABLE users_games
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users (id),
     game_id INT REFERENCES games (id)
-);
-
-CREATE TABLE covers
-(
-    id INT PRIMARY KEY,
-    game_id INT REFERENCES games (id),
-    url TEXT NOT NULL,
-    height INT NOT NULL,
-    width INT NOT NULL
 );
