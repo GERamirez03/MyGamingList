@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import SearchForm from "./SearchForm";
 import GameCard from "./GameCard";
 import UserContext from "./userContext";
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, Stack } from '@mui/material';
 
 function GameList() {
 
@@ -25,7 +26,9 @@ function GameList() {
     return (
         <>
             <SearchForm search={search} />
-            {gamesArr !== null && gamesArr.map(game => <GameCard game={game} key={game.checksum} />)}
+            <Stack direction="column" spacing={2} sx={{ mt: 2 }}>
+                {gamesArr !== null && gamesArr.map(game => <GameCard game={game} key={game.checksum} />)}
+            </Stack>
         </>
     );
 }
