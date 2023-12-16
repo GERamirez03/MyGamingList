@@ -4,7 +4,7 @@ const { ACCESS_TOKEN, CLIENT_ID } = require("./secret");
 const BASE_URL = "https://api.igdb.com/v4";
 const gamesEndpoint = "/games";
 const coversEndpoint = "/covers";
-const gameFields = 'id,name,slug,checksum,summary,first_release_date';
+const gameFields = 'id,name,slug,checksum,summary,first_release_date,cover.*';
 const coverFields = 'id,game,url,height,width';
 
 const requestOptions = {
