@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, Stack } from '@mui/material';
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import { useNavigate } from "react-router-dom";
 
 function GameCard({ game }) {
@@ -15,14 +16,20 @@ function GameCard({ game }) {
     return (
         <Card>
             <Stack direction="row" spacing={2}>
-                <CardMedia
+
+                {cover
+                ? <CardMedia
                     component="img"
                     image={cover.url}
                     alt={`Cover for ${ name }`}
                     sx={{
                         width: 100,
                         height: 100
-                    }} />
+                    }}
+                  />
+                : <ImageNotSupportedIcon fontSize="large" />
+                }
+                
                 <CardContent>
                     <Typography>
                         { name }
