@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { sendUserAddingGameToApi, sendUserRemovingGameToApi } from "./actionCreators";
 import { useDispatch, useSelector } from "react-redux";
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 
 function GameDetail() {
 
@@ -70,11 +71,25 @@ function GameDetail() {
         );
     }
 
-    const { id, name, checksum, summary, first_release_date } = game;
+    const { id, name, checksum, summary, first_release_date, cover } = game;
 
     return (
         <Box sx={{ display: 'flex' }}>
             <Stack spacing={2}>
+
+                {cover
+                ? <Box
+                    component="img"
+                    src={cover.url}
+                    alt={`Cover for ${ name }`}
+                    sx={{
+                        width: 100,
+                        height: 100
+                    }}
+                  />
+                : <ImageNotSupportedIcon fontSize="large" />
+                }
+
                 <Paper>
                     <Typography variant="h1" component="div" sx={{ flexGrow: 1 }}>
                         { name }
