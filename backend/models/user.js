@@ -161,12 +161,10 @@ class User {
         
         /** If game is not in local DB, fetch game and cover's data from API and add them */
 
-        if (!gameCheck.rows[0]) {    
-            let [gameData, coverData] = 
-            await Promise.all([
-                IGDBApi.getGameData(gameId),
-                IGDBApi.getGameCover(gameId)
-            ]);
+        if (!gameCheck.rows[0]) {
+            let gameData = await IGDBApi.getGameData(gameId);
+            let { cover: coverData } = gameData;
+            
             await Promise.all([
                 Game.create(gameData),
                 Cover.create(coverData)
