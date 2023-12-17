@@ -16,13 +16,6 @@ CREATE TABLE users
     is_admin BOOLEAN DEFAULT false
 );
 
--- INSERT INTO users
---     (username, email)
--- VALUES
---     ('testUser', 'testUser@test.com'),
---     ('testDev', 'testDev@test.com'),
---     ('testAdmin', 'testAdmin@test.com');
-
 CREATE TABLE games 
 (
     id INT PRIMARY KEY,
@@ -37,5 +30,26 @@ CREATE TABLE users_games
 (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users (id),
-    game_id INT REFERENCES games (id)
+    game_id INT REFERENCES games (id),
+    rating FLOAT DEFAULT NULL
+);
+
+CREATE TABLE reviews
+(
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    body TEXT,
+    author TEXT REFERENCES users (username),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    votes INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE comments
+(
+    id SERIAL PRIMARY KEY,
+    text TEXT NOT NULL,
+    review_id INT REFERENCES reviews (id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    votes INT NOT NULL DEFAULT 0
 );
