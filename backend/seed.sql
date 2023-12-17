@@ -41,6 +41,7 @@ CREATE TABLE reviews
     description TEXT NOT NULL,
     body TEXT,
     author TEXT REFERENCES users (username),
+    game_id INT REFERENCES games(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     votes INT NOT NULL DEFAULT 0
 );
