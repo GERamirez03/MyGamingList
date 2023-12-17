@@ -159,16 +159,11 @@ class User {
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User not found: ${username}`);
         
-        /** If game is not in local DB, fetch game and cover's data from API and add them */
+        /** If game is not in local DB, fetch game data from API and add it */
 
         if (!gameCheck.rows[0]) {
             let gameData = await IGDBApi.getGameData(gameId);
-            let { cover: coverData } = gameData;
-            
-            await Promise.all([
-                Game.create(gameData),
-                Cover.create(coverData)
-            ]);
+            await Game.create(gameData);
         }
 
         /** Finally, add the game to the user's list */
