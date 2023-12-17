@@ -5,7 +5,6 @@ const { NotFoundError, UnauthorizedError, BadRequestError } = require("../expres
 const { BCRYPT_WORK_FACTOR } = require("../config");
 const IGDBApi = require("../api");
 const Game = require("../models/game");
-const Cover = require("./cover");
 
 /** Related functions for users. */
 
