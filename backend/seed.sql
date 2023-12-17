@@ -31,7 +31,7 @@ CREATE TABLE users_games
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users (id),
     game_id INT REFERENCES games (id),
-    rating FLOAT DEFAULT NULL
+    rating FLOAT DEFAULT 2.5
 );
 
 CREATE TABLE reviews
