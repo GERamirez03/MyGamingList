@@ -30,7 +30,6 @@ CREATE TABLE games
 
 CREATE TABLE users_games
 (
-    -- id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users (id),
     game_id INT REFERENCES games (id),
     rating FLOAT DEFAULT 0, -- Each user_id's rating of game_id
@@ -52,11 +51,11 @@ CREATE TABLE ratings
 CREATE TABLE reviews
 (
     id SERIAL PRIMARY KEY,
+    author TEXT REFERENCES users (username),
+    game_id INT REFERENCES games (id),
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     body TEXT,
-    author TEXT REFERENCES users (username),
-    game_id INT REFERENCES games(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     votes INT NOT NULL DEFAULT 0
@@ -65,8 +64,9 @@ CREATE TABLE reviews
 CREATE TABLE comments
 (
     id SERIAL PRIMARY KEY,
-    text TEXT NOT NULL,
+    author TEXT REFERENCES users (username),
     review_id INT REFERENCES reviews (id) ON DELETE CASCADE,
+    text TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     votes INT NOT NULL DEFAULT 0
