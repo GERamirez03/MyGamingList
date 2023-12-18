@@ -41,7 +41,7 @@ function ProfileViewer() {
                 Games
             </Typography>
 
-            {profile.games.map(game => <GameCard game={game} key={game.id} />)}
+            {profile.games.map(game => <GameCard game={game} url={game.cover_url} key={game.id} />)}
 
         </Box>
     );

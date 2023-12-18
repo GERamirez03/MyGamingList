@@ -3,11 +3,11 @@ import { Card, CardActions, CardContent, CardMedia, Button, Typography, Stack } 
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import { useNavigate } from "react-router-dom";
 
-function GameCard({ game }) {
+function GameCard({ game, url }) {
 
     const navigate = useNavigate();
 
-    const { id, name, slug, checksum, cover } = game;
+    const { id, name, slug, checksum } = game;
 
     const toGameDetails = () => {
         navigate(`/games/${slug}`, { state: { gameId: id } });
@@ -17,10 +17,10 @@ function GameCard({ game }) {
         <Card>
             <Stack direction="row" spacing={2}>
 
-                {cover
+                {url
                 ? <CardMedia
                     component="img"
-                    image={cover.url}
+                    image={url}
                     alt={`Cover for ${ name }`}
                     sx={{
                         width: 100,

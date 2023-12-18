@@ -27,7 +27,7 @@ function GameList() {
         <>
             <SearchForm search={search} />
             <Stack direction="column" spacing={2} sx={{ mt: 2 }}>
-                {gamesArr !== null && gamesArr.map(game => <GameCard game={game} key={game.checksum} />)}
+                {gamesArr !== null && gamesArr.map(game => <GameCard game={game} url={game.cover ? game.cover.url : null} key={game.checksum} />)}
             </Stack>
         </>
     );
