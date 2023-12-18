@@ -7,14 +7,14 @@ class Game {
 
     /** Create a game with data provided */
 
-    static async create({ id, name, slug, summary, first_release_date, cover }) {
+    static async create({ id, name, slug, summary, first_release_date, cover, platforms }) {
 
         const result = await db.query(`
             INSERT INTO games
-            (id, name, slug, summary, first_release_date, cover_url)
-            VALUES ($1, $2, $3, $4, $5, $6)
+            (id, name, slug, summary, first_release_date, cover_url, platforms)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING id, name`,
-            [id, name, slug, summary, first_release_date, cover.url]
+            [id, name, slug, summary, first_release_date, cover.url, platforms.map(platform => platform.name).join(', ')]
         );
         const game = result.rows[0];
 
