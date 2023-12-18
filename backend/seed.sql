@@ -30,10 +30,11 @@ CREATE TABLE games
 
 CREATE TABLE users_games
 (
-    id SERIAL PRIMARY KEY,
+    -- id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users (id),
     game_id INT REFERENCES games (id),
-    rating FLOAT DEFAULT 0 -- Each user_id's rating of game_id
+    rating FLOAT DEFAULT 0, -- Each user_id's rating of game_id
+    PRIMARY KEY (user_id, game_id)
 );
 
 -- Global ratings of games, averaged across all MGL users' individual ratings
