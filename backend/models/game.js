@@ -37,6 +37,30 @@ class Game {
 
         return game;
     }
+
+    /** Update a game's average rating */
+
+    static async updateRating(id) {
+
+        const result = await db.query(`
+            SELECT rating
+            FROM users_games
+            WHERE game_id = $1`,
+            [id]
+        );
+        let sum = 0;
+        result.rows.map(row => sum += row.rating);
+        let avg = sum / result.rows.length;
+
+        const avgRes = await db.query(`
+            UPDATE ratings
+            SET rating = $1
+            WHERE game_id = $2
+            RETURNING game_id, rating`,
+            [avg, id]
+        );
+        return avgRes.rows[0]; // { gameId, rating }
+    }
 }
 
 module.exports = Game;
