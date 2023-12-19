@@ -123,7 +123,7 @@ class MyGamingListApi {
 
     async postNewReview(newReview) {
         let res = await this.request(`reviews`, newReview, "post");
-        return res.result;
+        return res.review;
     }
 
     clearUserData() {
