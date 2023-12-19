@@ -215,7 +215,7 @@ class User {
 
     /** Update a user's rating of a game */
 
-    static async updateUserGameRating(username, gameId, rating) {
+    static async updateUserGameRating(username, gameId, newRating) {
 
         /** Check for user */
 
@@ -229,15 +229,15 @@ class User {
             WHERE user_id = $2
             AND game_id = $3
             RETURNING user_id, game_id, rating`,
-            [rating, userId, gameId]
+            [newRating, userId, gameId]
         );
         const rating = userGameRes.rows[0];
 
         if (!rating) throw new NotFoundError(`User-Game not found: ${userId}-${gameId}`);
 
-        await Game.updateRating(gameId);
+        const averageRating = await Game.updateRating(gameId);
 
-        return rating;
+        return { rating, averageRating };
     }
 
     /** Get a user's profile information by username */
