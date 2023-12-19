@@ -116,6 +116,11 @@ class MyGamingListApi {
         return res.result;
     }
 
+    async rateGame(gameId, rating) {
+        let res = await this.request(`users/${this.username}/games/${gameId}`, { rating }, "put");
+        return res.result;
+    }
+
     clearUserData() {
         this.username = null;
         this.token = null;
