@@ -39,6 +39,23 @@ class Review {
         return review;
     }
 
+    /** Get all reviews for a particular game by id */
+
+    static async getGameReviews(gameId) {
+
+        const result = await db.query(`
+            SELECT *
+            FROM reviews
+            WHERE game_id = $1`,
+            [gameId]
+        );
+        const reviews = result.rows // arr of Review obj's
+
+        if (!reviews) throw new NotFoundError(`Reviews not found: ${gameId}`);
+
+        return reviews;
+    }
+
     /** Update a review's data with `data`, which can include `title`, `body`, and/or `description` */
 
     static async update(id, data) {
