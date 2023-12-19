@@ -39,6 +39,23 @@ class Comment {
         return comment;
     }
 
+    /** Get all comments for a particular review by id */
+
+    static async getReviewComments(reviewId) {
+
+        const result = await db.query(`
+            SELECT * 
+            FROM comments 
+            WHERE review_id = $1`, 
+            [reviewId]
+        );
+        const comments = result.rows; // arr of Comment obj's
+
+        if (!comments) throw new NotFoundError(`Comments not found: ${reviewId}`);
+
+        return comments;
+    }
+
     /** Update a comment's text with `text` */
 
     static async update(id, text) {
