@@ -79,6 +79,21 @@ router.post("/:username/games/:id",
         }
 });
 
+/** PUT a user updating their rating of a game on their list */
+
+router.put("/:username/games/:id",
+    ensureLoggedIn,
+    ensureAdminOrTargetUser,
+    async function (req, res, next) {
+        try {
+            const gameId = +req.params.id;
+            const rating = await User.updateUserGameRating(req.params.username, gameId, req.body.rating); // note that this route is expecting the user's new rating in req body !
+            return res.json({ rating });
+        } catch (err) {
+            return next(err);
+        }
+});
+
 /** DELETE a game from a user's list */
 
 router.delete("/:username/games/:id",
