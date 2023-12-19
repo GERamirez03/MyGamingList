@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { Box, CircularProgress, Typography, Paper, Stack, Fab } from "@mui/material";
+import { Box, CircularProgress, Typography, Paper, Stack, Fab, Rating } from "@mui/material";
 import UserContext from "./userContext";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { sendUserAddingGameToApi, sendUserRemovingGameToApi } from "./actionCreators";
+import { sendUserAddingGameToApi, sendUserRemovingGameToApi, sendUserRatingGameToApi } from "./actionCreators";
 import { useDispatch, useSelector } from "react-redux";
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 
@@ -63,6 +63,11 @@ function GameDetail() {
         dispatch(sendUserRemovingGameToApi(gameId, apiHelper));
     }
 
+    const rateGame = (event, value) => {
+        console.log("rateGame!", event, value);
+        dispatch(sendUserRatingGameToApi(gameId, value, apiHelper));
+    }
+
     if (isLoading) {
         return (
             <Box sx={{ display: 'flex' }}>
@@ -75,6 +80,7 @@ function GameDetail() {
 
     return (
         <Box sx={{ display: 'flex' }}>
+            <Paper>
             <Stack spacing={2}>
 
                 {cover
@@ -90,31 +96,35 @@ function GameDetail() {
                 : <ImageNotSupportedIcon fontSize="large" />
                 }
 
-                <Paper>
+                
                     <Typography variant="h1" component="div" sx={{ flexGrow: 1 }}>
                         { name }
                     </Typography>
-                </Paper>
-                <Paper>
+                
+                
                     <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
                         { summary }
                     </Typography>
-                </Paper>
-                <Paper>
+                
+                
                     <Typography variant="i" component="div" sx={{ flexGrow: 1 }}>
                         { first_release_date }
                     </Typography>
-                </Paper>
+                
 
                 {isInUserGameList 
-                ?   <Fab color="secondary" aria-label="remove" onClick={removeGame}>
-                        <DeleteIcon />
-                    </Fab>
+                ?   <>
+                        <Fab color="secondary" aria-label="remove" onClick={removeGame}>
+                            <DeleteIcon />
+                        </Fab>
+                        <Rating name="user-rating" defaultValue={2.5} precision={0.5} onChange={rateGame} />
+                    </>
                 :   <Fab color="primary" aria-label="add" onClick={addGame}>
                         <AddIcon />
                     </Fab>
                 }
             </Stack>
+            </Paper>
         </Box>
     );
 }
