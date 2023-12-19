@@ -1,9 +1,10 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME } from "./actionTypes";
 
 const INITIAL_STATE = {
     username: null,
     token: null,
-    games: []
+    games: [],
+    ratings: {}
 };
 
 function rootReducer(state = INITIAL_STATE, action) {
@@ -22,6 +23,9 @@ function rootReducer(state = INITIAL_STATE, action) {
 
         case REMOVE_GAME:
             return { ...state, games: state.games.filter(gameId => gameId !== action.gameId) };
+
+        case RATE_GAME:
+            return { ...state, ratings: { ...state.ratings, [action.gameId]: action.rating }};
 
         default:
             return state;
