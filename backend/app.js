@@ -10,6 +10,7 @@ const { authenticateJWT } = require("./middleware/auth");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const gameRoutes = require("./routes/games");
+const reviewRoutes = require("./routes/reviews");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(authenticateJWT);
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/games", gameRoutes);
+app.use("/reviews", reviewRoutes);
 
 /** Handle 404 errors */
 app.use(function (req, res, next) {
