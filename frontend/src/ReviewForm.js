@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-// import { sendNewReviewToApi } from "./actionCreators";
+import { sendNewReviewToApi } from "./actionCreators";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import UserContext from "./userContext";
@@ -16,9 +16,9 @@ function ReviewForm() {
     const { gameId, name } = location.state;
 
     const handleSubmit = values => {
-        // dispatch
-        // navigate
         console.debug(values);
+        dispatch(sendNewReviewToApi(values, apiHelper));
+        navigate("/");
     }
 
     const formik = useFormik({
