@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW } from "./actionTypes";
 import MyGamingListApi from "./api";
 
 // Action Creator for LOGOUT
@@ -94,5 +94,23 @@ function sentUserRatingGame(rating) {
         type: RATE_GAME,
         gameId: rating.game_id,
         rating: rating.rating
+    };
+}
+
+// Pair of functions which post a new review to the API
+
+export function sendNewReviewToApi(newReview, apiHelper) {
+    return async function(dispatch) {
+        let review = await apiHelper.postNewReview(newReview);
+        console.debug(review);
+        dispatch(sentNewReview(review));
+    };
+}
+
+function sentNewReview(review) {
+    return {
+        type: ADD_REVIEW,
+        gameId: review.game_id,
+        reviewId: review.id,
     };
 }
