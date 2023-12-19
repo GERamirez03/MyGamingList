@@ -1,10 +1,11 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW } from "./actionTypes";
 
 const INITIAL_STATE = {
     username: null,
     token: null,
     games: [],
-    ratings: {}
+    ratings: {},
+    reviews: [] // arr or obj ?
 };
 
 function rootReducer(state = INITIAL_STATE, action) {
@@ -26,6 +27,9 @@ function rootReducer(state = INITIAL_STATE, action) {
 
         case RATE_GAME:
             return { ...state, ratings: { ...state.ratings, [action.gameId]: action.rating }};
+
+        case ADD_REVIEW:
+            return { ...state, reviews: [ ...state.reviews, action.reviewId ]};
 
         default:
             return state;
