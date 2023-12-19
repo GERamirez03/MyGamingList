@@ -87,8 +87,8 @@ router.put("/:username/games/:id",
     async function (req, res, next) {
         try {
             const gameId = +req.params.id;
-            const rating = await User.updateUserGameRating(req.params.username, gameId, req.body.rating); // note that this route is expecting the user's new rating in req body !
-            return res.json({ rating });
+            const result = await User.updateUserGameRating(req.params.username, gameId, req.body.rating); // note that this route is expecting the user's new rating in req body !
+            return res.json({ result });
         } catch (err) {
             return next(err);
         }
