@@ -213,6 +213,33 @@ class User {
         }
     }
 
+    /** Update a user's rating of a game */
+
+    static async updateUserGameRating(username, gameId, rating) {
+
+        /** Check for user */
+
+        const userId = await User.getUserId(username);
+
+        /** Query db to check for user_game relationship */
+
+        const userGameRes = await db.query(`
+            UPDATE users_games
+            SET rating = $1
+            WHERE user_id = $2
+            AND game_id = $3
+            RETURNING user_id, game_id, rating`,
+            [rating, userId, gameId]
+        );
+        const rating = userGameRes.rows[0];
+
+        if (!rating) throw new NotFoundError(`User-Game not found: ${userId}-${gameId}`);
+
+        await Game.updateRating(gameId);
+
+        return rating;
+    }
+
     /** Get a user's profile information by username */
 
     static async getProfile(username) {
