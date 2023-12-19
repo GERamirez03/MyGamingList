@@ -121,6 +121,11 @@ class MyGamingListApi {
         return res.result;
     }
 
+    async postNewReview(newReview) {
+        let res = await this.request(`reviews`, newReview, "post");
+        return res.result;
+    }
+
     clearUserData() {
         this.username = null;
         this.token = null;
