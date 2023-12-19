@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams, useLocation } from "react-router-dom";
-import { Box, CircularProgress, Typography, Paper, Stack, Fab, Rating } from "@mui/material";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { Box, CircularProgress, Typography, Paper, Stack, Fab, Rating, Button } from "@mui/material";
 import UserContext from "./userContext";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,6 +10,7 @@ import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 
 function GameDetail() {
 
+    const navigate = useNavigate();
     const location = useLocation();
     // console.log(location);
     console.log(location.state);
@@ -68,6 +69,10 @@ function GameDetail() {
         dispatch(sendUserRatingGameToApi(gameId, value, apiHelper));
     }
 
+    const reviewGame = () => {
+        navigate("/reviews/new", { state: { gameId, name }});
+    }
+
     if (isLoading) {
         return (
             <Box sx={{ display: 'flex' }}>
@@ -118,6 +123,7 @@ function GameDetail() {
                             <DeleteIcon />
                         </Fab>
                         <Rating name="user-rating" defaultValue={2.5} precision={0.5} onChange={rateGame} />
+                        <Button variant="contained" onClick={reviewGame}>Write a Review</Button>
                     </>
                 :   <Fab color="primary" aria-label="add" onClick={addGame}>
                         <AddIcon />
