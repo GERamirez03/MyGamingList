@@ -7,6 +7,7 @@ import AccountViewer from "./AccountViewer";
 import ProfileViewer from "./ProfileViewer";
 import GameList from "./GameList";
 import GameDetail from "./GameDetail";
+import ReviewForm from "./ReviewForm";
 
 function Router() {
     return (
@@ -18,6 +19,7 @@ function Router() {
             <Route exact path="/games/search" element={<GameList/>} />
             <Route path="/users/:username" element={<ProfileViewer/>} />
             <Route path="/games/:slug" element={<GameDetail/>} />
+            <Route path="/reviews/new" element={<ReviewForm/>} />
         </ Routes>
     );
 }
