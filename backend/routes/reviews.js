@@ -34,6 +34,19 @@ router.get("/:id", async function (req, res, next) {
 });
 
 /** GET /
+ *  Get all reviews, sorted by most recent created_at ??
+ */
+
+router.get("/", async function (req, res, next) {
+    try {
+        const reviews = await Review.getReviews();
+        return res.status(200).json({ reviews });
+    } catch (err) {
+        return next(err);
+    }
+});
+
+/** GET /
  *  Get reviews for a specific game
  */
 
