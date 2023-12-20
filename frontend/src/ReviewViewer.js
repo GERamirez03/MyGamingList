@@ -38,6 +38,10 @@ function ReviewViewer() {
         navigate("/reviews");
     }
 
+    const editReview = () => {
+        navigate("/reviews/edit", { state: { isEdit: true, reviewData: review }});
+    }
+
     const { author, game_id, title, description, body, created_at, updated_at, votes } = review;
     const isAuthor = apiHelper.username === author;
 
@@ -69,7 +73,7 @@ function ReviewViewer() {
 
             {isAuthor &&
             <>
-                <Button>Edit</Button>
+                <Button onClick={editReview}>Edit</Button>
                 <Button onClick={removeReview}>Delete</Button>
             </>
             }
