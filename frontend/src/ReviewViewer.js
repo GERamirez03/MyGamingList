@@ -39,7 +39,7 @@ function ReviewViewer() {
     }
 
     const editReview = () => {
-        navigate("/reviews/edit", { state: { isEdit: true, reviewData: review }});
+        navigate("/reviews/edit", { state: { reviewData: review }});
     }
 
     const { author, game_id, title, description, body, created_at, updated_at, votes } = review;
