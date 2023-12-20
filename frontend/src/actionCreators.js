@@ -110,9 +110,8 @@ export function sendNewReviewToApi(newReview, apiHelper) {
 function sentNewReview(review) {
     return {
         type: ADD_REVIEW,
-        gameId: review.game_id,
         reviewId: review.id,
-        // createdAt: review.created_at ????
+        createdAt: review.created_at
     };
 }
 
