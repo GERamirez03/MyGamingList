@@ -18,9 +18,10 @@ function Router() {
             <Route exact path="/signup" element={<SignupForm/>} />
             <Route exact path="/login" element={<LoginForm/>} />
             <Route exact path="/account" element={<AccountViewer/>} />
-            <Route path="/reviews" element={<ReviewList />} />
+            <Route exact path="/reviews" element={<ReviewList />} />
             <Route exact path="/games/search" element={<GameList/>} />
             <Route exact path="/reviews/new" element={<ReviewForm/>} />
+            <Route exact path="/reviews/edit" element={<ReviewForm isEdit={true} />} />
             <Route path="/users/:username" element={<ProfileViewer/>} />
             <Route path="/games/:slug" element={<GameDetail/>} />
             <Route path="/reviews/:id" element={<ReviewViewer/>} />
