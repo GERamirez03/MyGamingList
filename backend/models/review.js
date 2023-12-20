@@ -113,7 +113,7 @@ class Review {
 
     static async remove(id) {
 
-        const result = db.query(`
+        const result = await db.query(`
             DELETE FROM reviews
             WHERE id = $1
             RETURNING id, author, game_id`,
