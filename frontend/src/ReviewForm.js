@@ -18,7 +18,7 @@ function ReviewForm() {
     const handleSubmit = values => {
         console.debug(values);
         dispatch(sendNewReviewToApi(values, apiHelper));
-        navigate("/");
+        navigate("/reviews");
     }
 
     const formik = useFormik({
