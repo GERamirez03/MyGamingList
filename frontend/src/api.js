@@ -136,6 +136,11 @@ class MyGamingListApi {
         return res.reviews;
     }
 
+    async removeReview(id) {
+        let res = await this.request(`reviews/${id}`, {}, "delete");
+        return res.removed;
+    }
+
     clearUserData() {
         this.username = null;
         this.token = null;
