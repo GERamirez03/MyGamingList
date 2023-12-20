@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { sendNewReviewToApi } from "./actionCreators";
+import { sendNewReviewToApi, sendUserUpdatingReviewToApi } from "./actionCreators";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import UserContext from "./userContext";
@@ -12,6 +12,27 @@ function ReviewForm() {
     const location = useLocation();
     const navigate = useNavigate();
     const apiHelper = useContext(UserContext);
+    const isEdit = location.state.reviewData ? true : false;
+
+    const initialValues = (isEdit)
+    ?
+    {
+        game_id: location.state.reviewData.game_id,
+        game: `Editing review ${location.state.reviewData.title}`,
+        author: location.state.reviewData.author,
+        title: location.state.reviewData.title,
+        description: location.state.reviewData.description,
+        body: location.state.reviewData.body
+    }
+    :
+    {
+        game_id: location.state.gameId,
+        game: location.state.name,
+        author: apiHelper.username,
+        title: "",
+        description: "",
+        body: ""
+    }
 
     const handleSubmit = values => {
         console.debug(values);
@@ -19,16 +40,15 @@ function ReviewForm() {
         navigate("/reviews");
     }
 
+    const handleEdit = values => {
+        console.debug("handleEdit", values);
+        dispatch(sendUserUpdatingReviewToApi(location.state.reviewData.id, values, apiHelper));
+        navigate("/reviews");
+    }
+
     const formik = useFormik({
-        initialValues: {
-            game_id: location.state.gameId,
-            game: location.state.name,
-            author: apiHelper.username,
-            title: "",
-            description: "",
-            body: ""
-        },
-        onSubmit: values => handleSubmit(values)
+        initialValues: initialValues,
+        onSubmit: values => (isEdit) ? handleEdit(values) : handleSubmit(values)
     });
 
     return (
