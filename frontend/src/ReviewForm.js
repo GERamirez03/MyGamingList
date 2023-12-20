@@ -13,8 +13,6 @@ function ReviewForm() {
     const navigate = useNavigate();
     const apiHelper = useContext(UserContext);
 
-    const { gameId, name } = location.state;
-
     const handleSubmit = values => {
         console.debug(values);
         dispatch(sendNewReviewToApi(values, apiHelper));
@@ -23,8 +21,8 @@ function ReviewForm() {
 
     const formik = useFormik({
         initialValues: {
-            game_id: gameId,
-            game: name,
+            game_id: location.state.gameId,
+            game: location.state.name,
             author: apiHelper.username,
             title: "",
             description: "",
