@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW } from "./actionTypes";
 
 const INITIAL_STATE = {
     username: null,
@@ -30,6 +30,9 @@ function rootReducer(state = INITIAL_STATE, action) {
 
         case ADD_REVIEW:
             return { ...state, reviews: [ ...state.reviews, action.reviewId ]};
+
+        case REMOVE_REVIEW:
+            return { ...state, reviews: state.reviews.filter(reviewId => reviewId !== action.reviewId)};
 
         default:
             return state;
