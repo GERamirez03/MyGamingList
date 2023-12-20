@@ -136,6 +136,11 @@ class MyGamingListApi {
         return res.reviews;
     }
 
+    async updateReview(id, data) {
+        let res = await this.request(`reviews/${id}`, data, "put");
+        return res.review;
+    }
+
     async removeReview(id) {
         let res = await this.request(`reviews/${id}`, {}, "delete");
         return res.removed;
