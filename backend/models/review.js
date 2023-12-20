@@ -14,7 +14,7 @@ class Review {
             INSERT INTO reviews
             (author, game_id, title, description, body)
             VALUES ($1, $2, $3, $4, $5)
-            RETURNING id, author, game_id`,
+            RETURNING id, author, game_id, created_at`,
             [author, game_id, title, description, body]
         );
         const review = result.rows[0];
@@ -81,7 +81,7 @@ class Review {
             UPDATE reviews
             SET ${setCols}
             WHERE id = ${idIdx}
-            RETURNING id, author, game_id
+            RETURNING id, author, game_id, updated_at
         `;
         const result = await db.query(querySql, [...values, id]);
         const review = result.rows[0];
