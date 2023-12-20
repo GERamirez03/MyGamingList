@@ -74,16 +74,18 @@ class Review {
 
     static async update(id, data) {
 
-        const { setCols, values } = sqlForPartialUpdate(data, {});
-        const idIdx = "$" + (values.length + 1);
+        const { title, description, body } = data;
+
+        // const { setCols, values } = sqlForPartialUpdate(data, {});
+        // const idIdx = "$" + (values.length + 1);
 
         const querySql = `
             UPDATE reviews
-            SET ${setCols}
-            WHERE id = ${idIdx}
+            SET title = $1, description = $2, body = $3
+            WHERE id = $4
             RETURNING id, author, game_id, updated_at
         `;
-        const result = await db.query(querySql, [...values, id]);
+        const result = await db.query(querySql, [title, description, body, id]);
         const review = result.rows[0];
 
         if (!review) throw new NotFoundError(`Review not found: ${id}`);
