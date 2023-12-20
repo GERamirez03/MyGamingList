@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW } from "./actionTypes";
 import MyGamingListApi from "./api";
 
 // Action Creator for LOGOUT
@@ -112,6 +112,7 @@ function sentNewReview(review) {
         type: ADD_REVIEW,
         gameId: review.game_id,
         reviewId: review.id,
+        // createdAt: review.created_at ????
     };
 }
 
@@ -129,5 +130,23 @@ function sentUserRemovingReview(review) {
     return {
         type: REMOVE_REVIEW,
         reviewId: review.id
+    };
+}
+
+// Pair of functions which send a user editing their review to the API
+
+export function sendUserUpdatingReviewToApi(reviewId, data, apiHelper) {
+    return async function(dispatch) {
+        let review = await apiHelper.updateReview(reviewId, data);
+        console.debug(review);
+        dispatch(sentUserUpdatingReview(review));
+    };
+}
+
+function sentUserUpdatingReview(review) {
+    return {
+        type: UPDATE_REVIEW,
+        reviewId: review.id,
+        updatedAt: review.updated_at
     };
 }
