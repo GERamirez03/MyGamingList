@@ -8,6 +8,8 @@ import ProfileViewer from "./ProfileViewer";
 import GameList from "./GameList";
 import GameDetail from "./GameDetail";
 import ReviewForm from "./ReviewForm";
+import ReviewList from "./ReviewList";
+import ReviewViewer from "./ReviewViewer";
 
 function Router() {
     return (
@@ -16,11 +18,12 @@ function Router() {
             <Route exact path="/signup" element={<SignupForm/>} />
             <Route exact path="/login" element={<LoginForm/>} />
             <Route exact path="/account" element={<AccountViewer/>} />
-            {/* <Route path="/reviews" element={<ReviewList ALL />} /> */}
+            <Route path="/reviews" element={<ReviewList />} />
             <Route exact path="/games/search" element={<GameList/>} />
             <Route exact path="/reviews/new" element={<ReviewForm/>} />
             <Route path="/users/:username" element={<ProfileViewer/>} />
             <Route path="/games/:slug" element={<GameDetail/>} />
+            <Route path="/reviews/:id" element={<ReviewViewer/>} />
             {/* <Route path="/reviews/:slug" element={<ReviewList SLUG />} /> */}
         </ Routes>
     );
