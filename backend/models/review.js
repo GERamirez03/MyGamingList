@@ -56,6 +56,20 @@ class Review {
         return reviews;
     }
 
+    /** Get all reviews sorted by created_at */
+
+    static async getReviews() {
+
+        const result = await db.query(`
+            SELECT *
+            FROM reviews
+            ORDER BY created_at`
+        );
+        const reviews = result.rows;
+
+        return reviews;
+    }
+
     /** Update a review's data with `data`, which can include `title`, `body`, and/or `description` */
 
     static async update(id, data) {
