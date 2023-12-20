@@ -1,11 +1,11 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW } from "./actionTypes";
 
 const INITIAL_STATE = {
     username: null,
     token: null,
-    games: [],
-    ratings: {},
-    reviews: [] // arr or obj ?
+    games: [], // [gameId, ...]
+    ratings: {}, // { [gameId]: rating, ... }
+    reviews: {} // { [reviewId]: updatedAt, ... }
 };
 
 function rootReducer(state = INITIAL_STATE, action) {
@@ -29,10 +29,15 @@ function rootReducer(state = INITIAL_STATE, action) {
             return { ...state, ratings: { ...state.ratings, [action.gameId]: action.rating }};
 
         case ADD_REVIEW:
-            return { ...state, reviews: [ ...state.reviews, action.reviewId ]};
+            return { ...state, reviews: { ...state.reviews, [action.reviewId]: action.createdAt }};
 
         case REMOVE_REVIEW:
-            return { ...state, reviews: state.reviews.filter(reviewId => reviewId !== action.reviewId)};
+            // action.reviewId is the review we are attempting to remove
+            const { [action.reviewId]: removedAt, ...remainingReviews } = state.reviews;
+            return { ...state, reviews: remainingReviews };
+
+        case UPDATE_REVIEW:
+            return { ...state, reviews: { ...state.reviews, [action.reviewId]: action.updatedAt }};
 
         default:
             return state;
