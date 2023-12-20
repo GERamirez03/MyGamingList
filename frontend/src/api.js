@@ -126,6 +126,16 @@ class MyGamingListApi {
         return res.review;
     }
 
+    async getReview(id) {
+        let res = await this.request(`reviews/${ id }`);
+        return res.review;
+    }
+
+    async getReviews() {
+        let res = await this.request("reviews");
+        return res.reviews;
+    }
+
     clearUserData() {
         this.username = null;
         this.token = null;
