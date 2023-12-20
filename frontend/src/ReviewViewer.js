@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Box, CircularProgress, Typography, Button } from "@mui/material"
 import UserContext from "./userContext";
+import { useDispatch } from "react-redux";
+import { sendUserRemovingReviewToApi } from "./actionCreators";
 
 function ReviewViewer() {
 
     const { id } = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [review, setReview] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -27,6 +31,11 @@ function ReviewViewer() {
                 <CircularProgress />
             </Box>
         );
+    }
+
+    const removeReview = () => {
+        dispatch(sendUserRemovingReviewToApi(id, apiHelper));
+        navigate("/reviews");
     }
 
     const { author, game_id, title, description, body, created_at, updated_at, votes } = review;
@@ -58,9 +67,11 @@ function ReviewViewer() {
                 Game ID: { game_id }
             </Typography>
 
-            {isAuthor
-            ? <Button>Edit</Button>
-            : <Button>Delete</Button>
+            {isAuthor &&
+            <>
+                <Button>Edit</Button>
+                <Button onClick={removeReview}>Delete</Button>
+            </>
             }
             {/** Comments TBD */}
         </Box>
