@@ -4,8 +4,6 @@ const router = new express.Router({ mergeParams: true });
 const { ensureLoggedIn } = require("../middleware/auth");
 const Comment = require("../models/comment");
 
-// NOTE THAT REVIEW_ID WILL BE IN REQ PARAMS! mergeParams
-
 /** POST / 
  *  Post a new comment.
  * { author, review_id, text } => new Comment
