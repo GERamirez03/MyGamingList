@@ -3,6 +3,7 @@ const router = new express.Router();
 
 const { ensureLoggedIn } = require("../middleware/auth");
 const Review = require("../models/review");
+const Comment = require("../models/comment");
 
 // have game_id params? mergeParams?
 
@@ -26,8 +27,8 @@ router.post("/", async function (req, res, next) {
 
 router.get("/:id", async function (req, res, next) {
     try {
-        const review = await Review.get(req.params.id);
-        return res.json({ review });
+        const [review, comments] = await Promise.all([Review.get(req.params.id), Comment.getReviewComments(req.params.id)]);
+        return res.json({ review, comments });
     } catch (err) {
         return next(err);
     }
