@@ -11,6 +11,7 @@ const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const gameRoutes = require("./routes/games");
 const reviewRoutes = require("./routes/reviews");
+const commentRoutes = require("./routes/comments");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/games", gameRoutes);
 app.use("/reviews", reviewRoutes);
+app.use("/comments", commentRoutes);
 
 /** Handle 404 errors */
 app.use(function (req, res, next) {
