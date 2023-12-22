@@ -11,15 +11,17 @@ function ReviewViewer() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [review, setReview] = useState(null);
+    const [comments, setComments] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const apiHelper = useContext(UserContext);
 
     useEffect(function fetchReviewWhenMounted() {
         async function fetchReview(id) {
-            let reviewRes = await apiHelper.getReview(id);
+            let reviewRes = await apiHelper.getReviewAndComments(id);
             console.debug(reviewRes);
-            setReview(reviewRes);
+            setReview(reviewRes.review);
+            setComments(reviewRes.comments);
             setIsLoading(false);
         }
         fetchReview(id);
@@ -71,12 +73,15 @@ function ReviewViewer() {
                 Game ID: { game_id }
             </Typography>
 
-            {isAuthor &&
-            <>
-                <Button onClick={editReview}>Edit</Button>
-                <Button onClick={removeReview}>Delete</Button>
-            </>
+            {
+                isAuthor &&
+                <>
+                    <Button onClick={editReview}>Edit</Button>
+                    <Button onClick={removeReview}>Delete</Button>
+                </>
             }
+
+            {/* <CommentSection comments={comments} reviewId={id} /> */}
             {/** Comments TBD */}
         </Box>
     );
