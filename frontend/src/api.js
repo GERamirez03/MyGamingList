@@ -126,9 +126,9 @@ class MyGamingListApi {
         return res.review;
     }
 
-    async getReview(id) {
+    async getReviewAndComments(id) {
         let res = await this.request(`reviews/${ id }`);
-        return res.review;
+        return res;
     }
 
     async getReviews() {
