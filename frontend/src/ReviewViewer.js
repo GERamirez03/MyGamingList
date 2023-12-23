@@ -4,6 +4,7 @@ import { Box, CircularProgress, Typography, Button } from "@mui/material"
 import UserContext from "./userContext";
 import { useDispatch } from "react-redux";
 import { sendUserRemovingReviewToApi } from "./actionCreators";
+import CommentSection from "./CommentSection";
 
 function ReviewViewer() {
 
@@ -81,7 +82,7 @@ function ReviewViewer() {
                 </>
             }
 
-            {/* <CommentSection comments={comments} reviewId={id} /> */}
+            <CommentSection comments={comments} reviewId={id} />
             {/** Comments TBD */}
         </Box>
     );
