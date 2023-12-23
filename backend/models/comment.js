@@ -94,7 +94,7 @@ class Comment {
 
     static async remove(id) {
 
-        const result = db.query(`
+        const result = await db.query(`
             DELETE FROM comments
             WHERE id = $1
             RETURNING id`,
