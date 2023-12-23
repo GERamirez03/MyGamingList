@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { Card, CardActions, CardContent, Button, Stack } from '@mui/material';
 
 function CommentCard({ comment }) {
-    console.debug(comment);
+    // console.debug(comment);
     const { id, author, review_id, text, created_at, updated_at, votes } = comment;
     return (
         <Card>

@@ -12,17 +12,15 @@ function ReviewViewer() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [review, setReview] = useState(null);
-    const [comments, setComments] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const apiHelper = useContext(UserContext);
 
     useEffect(function fetchReviewWhenMounted() {
         async function fetchReview(id) {
-            let reviewRes = await apiHelper.getReviewAndComments(id);
+            let reviewRes = await apiHelper.getReview(id);
             console.debug(reviewRes);
-            setReview(reviewRes.review);
-            setComments(reviewRes.comments);
+            setReview(reviewRes);
             setIsLoading(false);
         }
         fetchReview(id);
@@ -82,8 +80,7 @@ function ReviewViewer() {
                 </>
             }
 
-            <CommentSection comments={comments} reviewId={id} />
-            {/** Comments TBD */}
+            <CommentSection reviewId={id} />
         </Box>
     );
 }
