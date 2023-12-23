@@ -18,13 +18,13 @@ router.post("/", async function (req, res, next) {
     }
 });
 
-/** GET /
- *  Get comments for a specific review.
+/** GET /[id]
+ *  Get comments for a specific REVIEW.
  */
 
-router.get("/", async function (req, res, next) {
+router.get("/:id", async function (req, res, next) {
     try {
-        const comments = await Comment.getReviewComments(req.params.review_id);
+        const comments = await Comment.getReviewComments(req.params.id);
         return res.status(200).json({ comments });
     } catch (err) {
         return next(err);

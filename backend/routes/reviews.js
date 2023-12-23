@@ -27,8 +27,10 @@ router.post("/", async function (req, res, next) {
 
 router.get("/:id", async function (req, res, next) {
     try {
-        const [review, comments] = await Promise.all([Review.get(req.params.id), Comment.getReviewComments(req.params.id)]);
-        return res.json({ review, comments });
+        // const [review, comments] = await Promise.all([Review.get(req.params.id), Comment.getReviewComments(req.params.id)]);
+        const review = await Review.get(req.params.id);
+        // return res.json({ review, comments });
+        return res.json({ review });
     } catch (err) {
         return next(err);
     }
