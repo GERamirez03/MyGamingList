@@ -9,6 +9,10 @@ function Homepage() {
     const toSearch = () => {
         navigate('/games/search');
     };
+
+    const toReviews = () => {
+        navigate("/reviews");
+    };
     
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -17,6 +21,9 @@ function Homepage() {
             </Typography>
             <Button variant="contained" onClick={toSearch}>
                 Search Games
+            </Button>
+            <Button variant="outlined" onClick={toReviews}>
+                Read Reviews
             </Button>
         </Box>
     );
