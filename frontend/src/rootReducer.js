@@ -1,11 +1,12 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW, ADD_COMMENT } from "./actionTypes";
 
 const INITIAL_STATE = {
     username: null,
     token: null,
     games: [], // [gameId, ...]
     ratings: {}, // { [gameId]: rating, ... }
-    reviews: {} // { [reviewId]: updatedAt, ... }
+    reviews: {}, // { [reviewId]: updatedAt, ... }
+    comments: {} // { [commentId]: updatedAt, ... }
 };
 
 function rootReducer(state = INITIAL_STATE, action) {
@@ -38,6 +39,9 @@ function rootReducer(state = INITIAL_STATE, action) {
 
         case UPDATE_REVIEW:
             return { ...state, reviews: { ...state.reviews, [action.reviewId]: action.updatedAt }};
+
+        case ADD_COMMENT:
+            return { ...state, comments: { ...state.comments, [action.commentId]: action.createdAt }};
 
         default:
             return state;
