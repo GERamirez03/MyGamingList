@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW, ADD_COMMENT } from "./actionTypes";
 import MyGamingListApi from "./api";
 
 // Action Creator for LOGOUT
@@ -147,5 +147,23 @@ function sentUserUpdatingReview(review) {
         type: UPDATE_REVIEW,
         reviewId: review.id,
         updatedAt: review.updated_at
+    };
+}
+
+// Pair of functions which send a user posting a new comment to the API
+
+export function sendUserPostingCommentToApi(commentData, apiHelper) {
+    return async function(dispatch) {
+        let comment = await apiHelper.postNewComment(commentData); // TODO
+        console.debug(comment);
+        dispatch(sentUserPostingComment(comment));
+    };
+}
+
+function sentUserPostingComment(comment) {
+    return {
+        type: ADD_COMMENT,
+        commentId: comment.id,
+        createdAt: comment.created_at
     };
 }
