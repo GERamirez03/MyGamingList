@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { Card, CardActions, CardContent, Button, Typography, Stack } from '@mui/material';
+import { Card, CardActions, CardContent, Button, Stack } from '@mui/material';
 
 function CommentCard({ comment }) {
     console.debug(comment);
