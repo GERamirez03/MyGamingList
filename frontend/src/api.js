@@ -146,6 +146,11 @@ class MyGamingListApi {
         return res.removed;
     }
 
+    async postNewComment(newComment) {
+        let res = await this.request(`comments`, newComment, "post");
+        return res.comment;
+    }
+
     clearUserData() {
         this.username = null;
         this.token = null;
