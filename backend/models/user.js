@@ -253,10 +253,30 @@ class User {
 
         if (!user) throw new NotFoundError(`User not found: ${username}`);
 
-        // we have a valid username/user.id => get their game list
+        // we have a valid username/user.id => get the user's game list with ratings, game info, and review info as applicable
+
+        const userProfileRes = await db.query(`
+            SELECT 
+                users_games.game_id, users_games.rating, 
+                games.name, games.cover_url, games.slug, 
+                reviews.id AS review_id, reviews.title, reviews.description
+            FROM users
+            JOIN users_games
+                ON users.id = users_games.user_id
+            JOIN games
+                ON users_games.game_id = games.id
+            JOIN reviews
+                ON games.id = reviews.game_id
+            WHERE username = $1`,
+            [username]
+        );
+
+        /**
+
+        // we have a valid username/user.id => get their game list with ratings
 
         const userGamesRes = await db.query(`
-            SELECT game_id
+            SELECT game_id, rating
             FROM users_games
             WHERE user_id = $1`,
             [user.id]
@@ -268,6 +288,10 @@ class User {
         const games = await Promise.all(userGames.map(gameId => Game.get(gameId)));
 
         return { username, games };
+
+        */
+
+        return userProfileRes.rows;
     }
 
     static async getUserId(username) {
