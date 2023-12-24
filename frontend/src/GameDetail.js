@@ -27,6 +27,9 @@ function GameDetail() {
     const userGameList = useSelector(store => store.games);
     const isInUserGameList = userGameList.includes(gameId);
 
+    const userRatings = useSelector(store => store.ratings);
+    const initialRating = (userRatings.hasOwnProperty(gameId)) ? userRatings[gameId] : 0;
+
     /** Have a piece of state dedicated to whether or not a game is already in user's list? that way we can show add vs remove? */
 
     /** Attempt to find that game, else redirect
@@ -122,7 +125,7 @@ function GameDetail() {
                         <Fab color="secondary" aria-label="remove" onClick={removeGame}>
                             <DeleteIcon />
                         </Fab>
-                        <Rating name="user-rating" defaultValue={2.5} precision={0.5} onChange={rateGame} />
+                        <Rating name="user-rating" defaultValue={initialRating} precision={0.5} onChange={rateGame} />
                         <Button variant="contained" onClick={reviewGame}>Write a Review</Button>
                     </>
                 :   <Fab color="primary" aria-label="add" onClick={addGame}>
