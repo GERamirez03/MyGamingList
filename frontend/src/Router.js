@@ -10,6 +10,7 @@ import GameDetail from "./GameDetail";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
 import ReviewViewer from "./ReviewViewer";
+import CommentForm from "./CommentForm";
 
 function Router() {
     return (
@@ -22,6 +23,8 @@ function Router() {
             <Route exact path="/games/search" element={<GameList/>} />
             <Route exact path="/reviews/new" element={<ReviewForm/>} />
             <Route exact path="/reviews/edit" element={<ReviewForm isEdit={true} />} />
+            <Route exact path="/comments/new" element={<CommentForm/>} />
+            <Route exact path="/comments/edit" element={<CommentForm/>} />
             <Route path="/users/:username" element={<ProfileViewer/>} />
             <Route path="/games/:slug" element={<GameDetail/>} />
             <Route path="/reviews/:id" element={<ReviewViewer/>} />
