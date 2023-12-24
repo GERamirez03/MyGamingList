@@ -1,28 +1,49 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import UserContext from "./userContext";
+import { sendUserPostingCommentToApi, sendUserUpdatingCommentToApi } from "./actionCreators";
 
-function CommentForm({ postComment, reviewId, author}) {
+function CommentForm() {
+
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const apiHelper = useContext(UserContext);
+    const isEdit = location.state.commentData ? true : false;
+
+    const initialValues = (isEdit)
+    ?
+    {
+        text: location.state.commentData.text,
+        author: location.state.commentData.author,
+        review_id: location.state.commentData.review_id
+    }
+    :
+    {
+        text: "",
+        author: apiHelper.username,
+        review_id: location.state.reviewId
+    };
 
     const handleSubmit = values => {
-        postComment(values);
+        console.debug(values);
+        dispatch(sendUserPostingCommentToApi(values, apiHelper));
+        navigate(`/reviews/${initialValues.review_id}`);
+    }
+
+    const handleEdit = values => {
+        console.debug("handleEdit", values);
+        dispatch(sendUserUpdatingCommentToApi(location.state.commentData.id, values, apiHelper));
+        navigate(`/reviews/${initialValues.review_id}`);
     }
 
     const formik = useFormik({
-        initialValues: {
-            text: "",
-            review_id: reviewId,
-            author: author
-        },
-        validationSchema: Yup.object({
-            text: Yup.string(),
-            review_id: Yup.string(),
-            author: Yup.string()
-        }),
-        onSubmit: values => {
-            handleSubmit(values);
-        },
+        initialValues: initialValues,
+        onSubmit: values => (isEdit) ? handleEdit(values) : handleSubmit(values)
     });
 
     return (

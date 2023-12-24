@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
-import CommentCard from "./CommentCard";
-import CommentForm from "./CommentForm";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, CircularProgress } from "@mui/material";
 import UserContext from "./userContext";
-import { useDispatch } from "react-redux";
-import { sendUserPostingCommentToApi } from "./actionCreators";
+import CommentList from "./CommentList";
 
 
 function CommentSection({ reviewId }) {
@@ -13,11 +11,10 @@ function CommentSection({ reviewId }) {
     const [isLoading, setIsLoading] = useState(true);
 
     const apiHelper = useContext(UserContext);
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const postComment = commentFormData => {
-        dispatch(sendUserPostingCommentToApi(commentFormData, apiHelper));
-        setIsLoading(true);
+    const writeComment = () => {
+        navigate("/comments/new", { state: { reviewId }});
     }
 
     useEffect(function fetchCommentsWhenMounted() {
@@ -28,7 +25,7 @@ function CommentSection({ reviewId }) {
             setIsLoading(false);
         }
         fetchComments(reviewId);
-    }, [isLoading]);
+    }, []);
 
     if (isLoading) {
         return (
@@ -38,16 +35,10 @@ function CommentSection({ reviewId }) {
         );
     }
 
-    const isEmpty = comments.length === 0;
-
     return (
         <Box>
-            <CommentForm postComment={postComment} reviewId={reviewId} author={apiHelper.username} />
-            {
-                isEmpty
-                ? <Typography variant="p">Be the first to comment!</Typography>
-                : comments.map(comment => <CommentCard comment={comment} key={comment.id} />)
-            }
+            <Button onClick={writeComment}>Write a Comment</Button>
+            <CommentList comments={comments} />
         </Box>
     );
 }
