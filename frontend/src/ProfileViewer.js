@@ -4,6 +4,7 @@ import { Box, CircularProgress, Typography } from "@mui/material"
 import MyGamingListApi from "./api";
 import UserContext from "./userContext";
 import GameCard from "./GameCard";
+import ProfileCard from "./ProfileCard";
 
 function ProfileViewer() {
 
@@ -31,6 +32,9 @@ function ProfileViewer() {
         );
     }
 
+    console.debug(profile);
+    const isOwnProfile = username === apiHelper.username;
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Typography variant="h1" component="div" sx={{ flexGrow: 1}}>
@@ -41,7 +45,8 @@ function ProfileViewer() {
                 Games
             </Typography>
 
-            {profile.games.map(game => <GameCard game={game} url={game.cover_url} key={game.id} />)}
+            {profile.map(row => <ProfileCard data={row} isAuthor={isOwnProfile} key={row.game_id} />)}
+            {/* {profile.games.map(game => <GameCard game={game} url={game.cover_url} key={game.id} />)} */}
 
         </Box>
     );
