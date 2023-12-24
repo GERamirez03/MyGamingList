@@ -80,7 +80,7 @@ class MyGamingListApi {
 
     async getProfile(username) {
         let res = await this.request(`users/${username}/profile`);
-        return res.user;
+        return res.profile;
     }
 
     async patchUserData(userData) {
@@ -153,6 +153,16 @@ class MyGamingListApi {
 
     async postNewComment(newComment) {
         let res = await this.request(`comments`, newComment, "post");
+        return res.comment;
+    }
+
+    async removeComment(id) {
+        let res = await this.request(`comments/${id}`, {}, "delete");
+        return res.removed;
+    }
+
+    async updateComment(id, data) {
+        let res = await this.request(`comments/${id}`, data, "put");
         return res.comment;
     }
 
