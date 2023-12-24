@@ -56,14 +56,14 @@ class Review {
         return reviews;
     }
 
-    /** Get all reviews sorted by created_at */
+    /** Get all reviews sorted by updated_at descending (most recently updated at top) */
 
     static async getReviews() {
 
         const result = await db.query(`
             SELECT *
             FROM reviews
-            ORDER BY created_at`
+            ORDER BY updated_at DESC`
         );
         const reviews = result.rows;
 

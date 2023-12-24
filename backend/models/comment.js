@@ -46,7 +46,8 @@ class Comment {
         const result = await db.query(`
             SELECT * 
             FROM comments 
-            WHERE review_id = $1`, 
+            WHERE review_id = $1
+            ORDER BY updated_at DESC`, 
             [reviewId]
         );
         const comments = result.rows; // arr of Comment obj's
@@ -64,7 +65,7 @@ class Comment {
             UPDATE comments
             SET text = $1
             WHERE id = $2
-            RETURNING id, author, text`,
+            RETURNING id, author, text, updated_at`,
             [text, id]
         );
         const comment = result.rows[0];
