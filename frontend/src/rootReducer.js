@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW, ADD_COMMENT } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW, ADD_COMMENT, REMOVE_COMMENT, UPDATE_COMMENT } from "./actionTypes";
 
 const INITIAL_STATE = {
     username: null,
@@ -34,7 +34,7 @@ function rootReducer(state = INITIAL_STATE, action) {
 
         case REMOVE_REVIEW:
             // action.reviewId is the review we are attempting to remove
-            const { [action.reviewId]: removedAt, ...remainingReviews } = state.reviews;
+            const { [action.reviewId]: removedReview, ...remainingReviews } = state.reviews;
             return { ...state, reviews: remainingReviews };
 
         case UPDATE_REVIEW:
@@ -42,6 +42,14 @@ function rootReducer(state = INITIAL_STATE, action) {
 
         case ADD_COMMENT:
             return { ...state, comments: { ...state.comments, [action.commentId]: action.createdAt }};
+
+        case REMOVE_COMMENT:
+            // action.commentId is the comment we are attempting to remove
+            const { [action.commentId]: removedComment, ... remainingComments } = state.comments;
+            return { ...state, comments: remainingComments };
+
+        case UPDATE_COMMENT:
+            return { ...state, comments: { ...state.comments, [action.commentId]: action.updatedAt }};
 
         default:
             return state;
