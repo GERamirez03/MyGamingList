@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW, ADD_COMMENT } from "./actionTypes";
+import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW, ADD_COMMENT, REMOVE_COMMENT, UPDATE_COMMENT } from "./actionTypes";
 import MyGamingListApi from "./api";
 
 // Action Creator for LOGOUT
@@ -154,7 +154,7 @@ function sentUserUpdatingReview(review) {
 
 export function sendUserPostingCommentToApi(commentData, apiHelper) {
     return async function(dispatch) {
-        let comment = await apiHelper.postNewComment(commentData); // TODO
+        let comment = await apiHelper.postNewComment(commentData);
         console.debug(comment);
         dispatch(sentUserPostingComment(comment));
     };
@@ -165,5 +165,40 @@ function sentUserPostingComment(comment) {
         type: ADD_COMMENT,
         commentId: comment.id,
         createdAt: comment.created_at
+    };
+}
+
+// Pair of functions which send a user deleting a comment to the API
+
+export function sendUserRemovingCommentToApi(commentId, apiHelper) {
+    return async function(dispatch) {
+        let comment = await apiHelper.removeComment(commentId);
+        console.debug(comment);
+        dispatch(sentUserRemovingComment(comment));
+    }
+}
+
+function sentUserRemovingComment(comment) {
+    return {
+        type: REMOVE_COMMENT,
+        commentId: comment.id
+    };
+}
+
+// Pair of functions which send a user editing their comment to the API
+
+export function sendUserUpdatingCommentToApi(commentId, data, apiHelper) {
+    return async function(dispatch) {
+        let comment = await apiHelper.updateComment(commentId, data);
+        console.debug(comment);
+        dispatch(sentUserUpdatingComment(comment));
+    };
+}
+
+function sentUserUpdatingComment(comment) {
+    return {
+        type: UPDATE_COMMENT,
+        commentId: comment.id,
+        updatedAt: comment.updated_at
     };
 }
