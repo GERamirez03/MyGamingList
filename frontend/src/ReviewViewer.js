@@ -43,6 +43,10 @@ function ReviewViewer() {
         navigate("/reviews/edit", { state: { reviewData: review }});
     }
 
+    const toAuthorProfile = () => {
+        navigate(`/users/${ author }`);
+    }
+
     const { author, game_id, title, description, body, created_at, updated_at, votes } = review;
     const isAuthor = apiHelper.username === author;
 
@@ -71,6 +75,7 @@ function ReviewViewer() {
                 <br/>
                 Game ID: { game_id }
             </Typography>
+            <Button variant="text" onClick={toAuthorProfile}>@{ author }</Button>
 
             {
                 isAuthor &&
