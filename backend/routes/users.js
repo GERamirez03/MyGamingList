@@ -115,8 +115,8 @@ router.get("/:username/profile",
     ensureLoggedIn,
     async function (req, res, next) {
         try {
-            const user = await User.getProfile(req.params.username);
-            return res.json({ user });
+            const profile = await User.getProfile(req.params.username);
+            return res.json({ profile });
         } catch (err) {
             return next(err);
         }
