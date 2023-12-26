@@ -2,6 +2,7 @@
 
 require("dotenv").config();
 require("colors");
+// const { ACCESS_TOKEN, CLIENT_ID } = require("./secret");
 
 const SECRET_KEY = process.env.SECRET_KEY || "mgl-secret-dev";
 
@@ -14,6 +15,14 @@ function getDatabaseUri() {
   return (process.env.NODE_ENV === "test")
       ? "postgresql:///my_gaming_list_test"
       : process.env.DATABASE_URL || "postgresql:///my_gaming_list";
+}
+
+function getAccessToken() {
+  return process.env.ACCESS_TOKEN;
+}
+
+function getClientId() {
+  return process.env.CLIENT_ID;
 }
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
@@ -32,4 +41,6 @@ module.exports = {
   BCRYPT_WORK_FACTOR,
   JWT_OPTIONS,
   getDatabaseUri,
+  getAccessToken,
+  getClientId
 };

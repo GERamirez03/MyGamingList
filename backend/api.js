@@ -1,5 +1,6 @@
 const apicalypse = require("apicalypse").default;
-const { ACCESS_TOKEN, CLIENT_ID } = require("./secret");
+// const { ACCESS_TOKEN, CLIENT_ID } = require("./secret");
+const { getAccessToken, getClientId } = require("./config");
 
 const BASE_URL = "https://api.igdb.com/v4";
 const gamesEndpoint = "/games";
@@ -12,8 +13,8 @@ const requestOptions = {
     method: 'post', // IGDB API uses POST requests for most of its endpoints
     headers: {
         'Accept': 'application/json',
-        'Client-ID': CLIENT_ID,
-        'Authorization': `Bearer ${ ACCESS_TOKEN }`
+        'Client-ID': getClientId(),
+        'Authorization': `Bearer ${ getAccessToken() }`
     }, // my application's information in the IGDB registry
     responseType: 'json',
     timeout: 2000 // give IGDB API two seconds before a request times out
