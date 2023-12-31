@@ -1,7 +1,6 @@
 const express = require("express");
 const router = new express.Router();
 
-const { ensureLoggedIn } = require("../middleware/auth");
 const { createToken } = require("../helpers/tokens");
 const User = require("../models/user");
 
@@ -29,16 +28,6 @@ router.post("/login", async function (req, res, next) {
         return res.json({ token, games: user.games });
     } catch (err) {
         return next(err);
-    }
-});
-
-/** GET: Secret route for users with valid token */
-
-router.get("/secret", ensureLoggedIn, async function (req, res, next) {
-    try {
-        return res.json({ message: "Made it!" });
-    } catch (err) {
-        return next({ status: 401, message: "Unauthorized" });
     }
 });
 

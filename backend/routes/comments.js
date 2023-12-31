@@ -9,9 +9,9 @@ const Comment = require("../models/comment");
  * { author, review_id, text } => new Comment
  */
 
-router.post("/", async function (req, res, next) {
+router.post("/", ensureLoggedIn, async function (req, res, next) {
     try {
-        const comment = await Comment.create(req.body); // note that review_id in body!
+        const comment = await Comment.create(req.body); // review_id in req.body
         return res.status(201).json({ comment });
     } catch (err) {
         return next(err);
@@ -35,23 +35,9 @@ router.get("/:id", async function (req, res, next) {
  * Update a specific comment.
  */
 
-router.put("/:id", async function (req, res, next) {
+router.put("/:id", ensureLoggedIn, async function (req, res, next) {
     try {
-        const comment = await Comment.update(req.params.id, req.body.text); // note this looks for text key in body of req to have new comment text!
-        return res.json({ comment });
-    } catch (err) {
-        return next(err);
-    }
-});
-
-/** PATCH /[id]/vote/(up|down)
- * Update an up- or down-vote on a comment
- */
-
-router.patch("/:id/vote/:direction", async function (req, res, next) {
-    try {
-        const delta = req.params.direction === "up" ? +1 : -1;
-        const comment = await Comment.vote(req.params.id, delta);
+        const comment = await Comment.update(req.params.id, req.body.text); // req.body contains text key with value of new comment text
         return res.json({ comment });
     } catch (err) {
         return next(err);
@@ -62,7 +48,7 @@ router.patch("/:id/vote/:direction", async function (req, res, next) {
  * Delete a specific comment
  */
 
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", ensureLoggedIn, async function (req, res, next) {
     try {
         const comment = await Comment.remove(req.params.id);
         return res.json({ removed: comment });

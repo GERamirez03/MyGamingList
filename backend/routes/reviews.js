@@ -3,16 +3,13 @@ const router = new express.Router();
 
 const { ensureLoggedIn } = require("../middleware/auth");
 const Review = require("../models/review");
-const Comment = require("../models/comment");
-
-// have game_id params? mergeParams?
 
 /** POST / 
  *  Post a new review.
  * {author, game_id, title, description, body} => new Review
  */
 
-router.post("/", async function (req, res, next) {
+router.post("/", ensureLoggedIn, async function (req, res, next) {
     try {
         const review = await Review.create(req.body);
         return res.status(201).json({ review });
@@ -27,9 +24,7 @@ router.post("/", async function (req, res, next) {
 
 router.get("/:id", async function (req, res, next) {
     try {
-        // const [review, comments] = await Promise.all([Review.get(req.params.id), Comment.getReviewComments(req.params.id)]);
         const review = await Review.get(req.params.id);
-        // return res.json({ review, comments });
         return res.json({ review });
     } catch (err) {
         return next(err);
@@ -37,7 +32,7 @@ router.get("/:id", async function (req, res, next) {
 });
 
 /** GET /
- *  Get all reviews, sorted by most recent created_at ??
+ *  Get all reviews
  */
 
 router.get("/", async function (req, res, next) {
@@ -66,23 +61,9 @@ router.get("/", async function (req, res, next) {
  *  Update given fields of a specific review
  */
 
-router.put("/:id", async function (req, res, next) {
+router.put("/:id", ensureLoggedIn, async function (req, res, next) {
     try {
         const review = await Review.update(req.params.id, req.body);
-        return res.json({ review });
-    } catch (err) {
-        return next(err);
-    }
-});
-
-/** PATCH /[id]/vote/(up|down)
- *  Update an up- or down-vote on a review
- */
-
-router.patch("/:id/vote/:direction", async function (req, res, next) {
-    try {
-        const delta = req.params.direction === "up" ? +1 : -1;
-        const review = await Review.vote(req.params.id, delta);
         return res.json({ review });
     } catch (err) {
         return next(err);
@@ -93,7 +74,7 @@ router.patch("/:id/vote/:direction", async function (req, res, next) {
  *  Delete a specific review
  */
 
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", ensureLoggedIn, async function (req, res, next) {
     try {
         const review = await Review.remove(req.params.id);
         return res.json({ removed: review });

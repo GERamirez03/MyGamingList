@@ -1,8 +1,5 @@
 const express = require("express");
-
 const router = new express.Router();
-
-const db = require("../db");
 
 const { ensureLoggedIn, ensureAdmin, ensureAdminOrTargetUser } = require("../middleware/auth");
 const User = require("../models/user");
@@ -22,7 +19,7 @@ router.get("/",
         }
 });
 
-/** GET information on specified user */
+/** GET account information on specified user */
 
 router.get("/:username", 
     ensureLoggedIn, 
@@ -87,7 +84,7 @@ router.put("/:username/games/:id",
     async function (req, res, next) {
         try {
             const gameId = +req.params.id;
-            const result = await User.updateUserGameRating(req.params.username, gameId, req.body.rating); // note that this route is expecting the user's new rating in req body !
+            const result = await User.updateUserGameRating(req.params.username, gameId, req.body.rating); // req.body contains rating key with rating value
             return res.json({ result });
         } catch (err) {
             return next(err);
@@ -102,17 +99,16 @@ router.delete("/:username/games/:id",
     async function (req, res, next) {
         try {
             const gameId = +req.params.id;
-            await User.removeGameFromList(req.params.username, gameId); // user id ?
+            await User.removeGameFromList(req.params.username, gameId);
             return res.json({ result: { user: req.params.username, removed: gameId }});
         } catch (err) {
             return next(err);
         }
 });
 
-/** GET profile of specified user */
+/** GET public profile of specified user */
 
 router.get("/:username/profile",
-    ensureLoggedIn,
     async function (req, res, next) {
         try {
             const profile = await User.getProfile(req.params.username);
