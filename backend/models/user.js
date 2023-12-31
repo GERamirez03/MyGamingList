@@ -26,6 +26,7 @@ class User {
             const isValid = await bcrypt.compare(password, user.password);
             if (isValid) {
                 const games = await User.getGames(user.id);
+                // can use user.id
                 delete user.password;
                 user.games = games;
                 return user;
@@ -238,6 +239,40 @@ class User {
         const averageRating = await Game.updateRating(gameId);
 
         return { rating, averageRating };
+    }
+
+    /** Get a user's information to store in state */
+
+    static async getUserState(userId, username) {
+
+        const ratingsRes = db.query(`
+            SELECT game_id, rating
+            FROM users_games
+            WHERE user_id = $1`,
+            [userId]
+        );
+
+        const reviewsRes = db.query(`
+            SELECT id, updated_at
+            FROM reviews
+            WHERE author = $1`,
+            [username]
+        );
+
+        const commentsRes = db.query(`
+            SELECT id, updated_at
+            FROM comments
+            WHERE author = $1`,
+            [username]
+        );
+
+        const [ratings, reviews, comments] = await Promise.all([ratingsRes, reviewsRes, commentsRes]);
+
+        return { 
+            ratings: ratings.rows, 
+            reviews: reviews.rows, 
+            comments: comments.rows 
+        };
     }
 
     /** Get a user's profile information by username */
