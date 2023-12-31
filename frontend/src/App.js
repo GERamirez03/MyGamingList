@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Router from './Router';
 import { Box } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';

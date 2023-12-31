@@ -1,5 +1,4 @@
 import { REGISTER, LOGIN, LOGOUT, ADD_GAME, REMOVE_GAME, RATE_GAME, ADD_REVIEW, REMOVE_REVIEW, UPDATE_REVIEW, ADD_COMMENT, REMOVE_COMMENT, UPDATE_COMMENT } from "./actionTypes";
-import MyGamingListApi from "./api";
 
 // Action Creator for LOGOUT
 

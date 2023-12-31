@@ -37,7 +37,7 @@ function ProfileCard({ data, isAuthor }) {
     }
 
     const editReview = () => {
-        navigate("/reviews/edit", { state: { reviewData: { game_id, description, review_id, title }}}); // TODO
+        navigate("/reviews/edit", { state: { reviewData: { game_id, description, review_id, title }}});
     }
 
     const removeReview = () => {

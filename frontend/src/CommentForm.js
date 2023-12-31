@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import UserContext from "./userContext";
 import { sendUserPostingCommentToApi, sendUserUpdatingCommentToApi } from "./actionCreators";
 

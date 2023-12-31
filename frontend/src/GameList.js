@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import SearchForm from "./SearchForm";
 import GameCard from "./GameCard";
 import UserContext from "./userContext";
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 
 function GameList() {
 

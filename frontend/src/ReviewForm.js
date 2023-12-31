@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { sendNewReviewToApi, sendUserUpdatingReviewToApi } from "./actionCreators";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import UserContext from "./userContext";
 

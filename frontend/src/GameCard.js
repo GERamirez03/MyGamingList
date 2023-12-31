@@ -7,7 +7,7 @@ function GameCard({ game, url }) {
 
     const navigate = useNavigate();
 
-    const { id, name, slug, checksum } = game;
+    const { id, name, slug } = game;
 
     const toGameDetails = () => {
         navigate(`/games/${slug}`, { state: { gameId: id } });

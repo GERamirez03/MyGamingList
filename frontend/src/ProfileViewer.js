@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Box, CircularProgress, Typography } from "@mui/material"
-import MyGamingListApi from "./api";
 import UserContext from "./userContext";
-import GameCard from "./GameCard";
 import ProfileCard from "./ProfileCard";
 
 function ProfileViewer() {
@@ -46,8 +44,6 @@ function ProfileViewer() {
             </Typography>
 
             {profile.map(row => <ProfileCard data={row} isAuthor={isOwnProfile} key={row.game_id} />)}
-            {/* {profile.games.map(game => <GameCard game={game} url={game.cover_url} key={game.id} />)} */}
-
         </Box>
     );
 }

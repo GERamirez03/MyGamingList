@@ -6,9 +6,7 @@ import UserContext from "./userContext";
 function AccountViewer() {
 
     const apiHelper = useContext(UserContext);
-
     const username = useSelector(store => store.username);
-    const token = useSelector(store => store.token);
 
     const [user, setUser] = useState(null);
 

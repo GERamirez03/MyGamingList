@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Avatar, Box, Toolbar, Typography, Button, IconButton, Tooltip, Menu, MenuItem, Divider, ListItemIcon, InputBase } from "@mui/material"
+import { AppBar, Avatar, Box, Toolbar, Typography, Button, IconButton, Tooltip, Menu, MenuItem, Divider, ListItemIcon } from "@mui/material"
 import { AccountCircle, AdminPanelSettings, Settings, Logout, VideogameAsset } from "@mui/icons-material";
-import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch } from "react-redux";
 import { logUserOut } from "./actionCreators";
 import { useNavigate } from "react-router-dom";
