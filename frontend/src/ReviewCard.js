@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardActions, CardContent, CardHeader, CardMedia, Button, Typography, Stack } from '@mui/material';
+import { Card, CardActions, CardContent, CardHeader, Button, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 
 function ReviewCard({ review }) {
@@ -9,20 +9,14 @@ function ReviewCard({ review }) {
     const { 
         id, 
         author, 
-        game_id, 
         title, 
         description, 
-        body, 
         created_at, 
-        updated_at, 
-        votes 
     } = review;
 
     const toReviewDetails = () => {
         navigate(`/reviews/${id}`);
     }
-
-    // ? game*
 
     return (
         <Card>
@@ -36,9 +30,6 @@ function ReviewCard({ review }) {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     By {author}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Votes: {votes}
                 </Typography>
             </CardContent>
             <CardActions>

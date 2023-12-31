@@ -47,7 +47,7 @@ function ReviewViewer() {
         navigate(`/users/${ author }`);
     }
 
-    const { author, game_id, title, description, body, created_at, updated_at, votes } = review;
+    const { author, game_id, title, description, body, created_at, updated_at } = review;
     const isAuthor = apiHelper.username === author;
 
     return (
@@ -60,9 +60,6 @@ function ReviewViewer() {
             </Typography>
             <Typography variant="h5">
                 By { author }
-            </Typography>
-            <Typography variant="h5">
-                Votes: { votes }
             </Typography>
             <Typography variant="p">
                 { body }

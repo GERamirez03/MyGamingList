@@ -28,7 +28,6 @@ function Router() {
             <Route path="/users/:username" element={<ProfileViewer/>} />
             <Route path="/games/:slug" element={<GameDetail/>} />
             <Route path="/reviews/:id" element={<ReviewViewer/>} />
-            {/* <Route path="/reviews/:slug" element={<ReviewList SLUG />} /> */}
         </ Routes>
     );
 }
