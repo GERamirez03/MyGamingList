@@ -26,9 +26,14 @@ class User {
             const isValid = await bcrypt.compare(password, user.password);
             if (isValid) {
                 const games = await User.getGames(user.id);
-                // can use user.id
-                delete user.password;
+                const { ratings, reviews, comments } = await User.getUserState(user.id, username);
+                
                 user.games = games;
+                user.ratings = ratings;
+                user.reviews = reviews;
+                user.comments = comments;
+
+                delete user.password;
                 return user;
             }
         }
