@@ -15,7 +15,22 @@ function rootReducer(state = INITIAL_STATE, action) {
             return { ...state, username: action.username, token: action.token };
 
         case LOGIN:
-            return { ...state, username: action.username, token: action.token, games: action.games };
+            let tempRatings = {};
+            let tempReviews = {};
+            let tempComments = {};
+
+            action.ratings.map(({ game_id, rating }) => tempRatings[game_id] = rating);
+            action.reviews.map(({ id, updated_at }) => tempReviews[id] = updated_at);
+            action.comments.map(({ id, updated_at }) => tempComments[id] = updated_at);
+
+            return { ...state, 
+                username: action.username, 
+                token: action.token, 
+                games: action.games,
+                ratings: tempRatings,
+                reviews: tempReviews,
+                comments: tempComments
+            };
 
         case LOGOUT:
             return INITIAL_STATE;

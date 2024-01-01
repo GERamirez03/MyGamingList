@@ -29,17 +29,20 @@ function sentNewUser({ username, token }) {
 
 export function sendUserCredentialsToApi(userCredentials, apiHelper) {
     return async function(dispatch) {
-        let { username, token, games } = await apiHelper.postUserCredentials(userCredentials);
-        dispatch(sentUserCredentials({ username, token, games }));
+        let { username, token, games, ratings, reviews, comments } = await apiHelper.postUserCredentials(userCredentials);
+        dispatch(sentUserCredentials({ username, token, games, ratings, reviews, comments }));
     };
 }
 
-function sentUserCredentials({ username, token, games }) {
+function sentUserCredentials({ username, token, games, ratings, reviews, comments }) {
     return {
         type: LOGIN,
         username,
         token,
-        games
+        games, 
+        ratings, 
+        reviews, 
+        comments
     };
 }
 
